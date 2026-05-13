@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="back.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+
+<title>My Orders - C25 Cafe</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:sans-serif;
+}
+
+body{
+  background:#f5f6fa;
+  color:#111;
+  padding:15px;
+  padding-bottom:120px;
+}
+
+.header{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  background:#111;
+  color:#fff;
+  padding:15px;
+  border-radius:16px;
+}
+
+.header img{
+  width:45px;
+  height:45px;
+  border-radius:50%;
+}
+
+.title{
+  margin-top:20px;
+  font-size:20px;
+  font-weight:700;
+}
+
+.order-card{
+  background:#fff;
+  margin-top:15px;
+  padding:15px;
+  border-radius:16px;
+  box-shadow:0 5px 20px rgba(0,0,0,0.08);
+}
+
+.product{
+  display:flex;
+  gap:10px;
+  margin-top:10px;
+  background:#f8f8f8;
+  padding:10px;
+  border-radius:12px;
+}
+
+.product img{
+  width:60px;
+  height:60px;
+  border-radius:10px;
+}
+
+.status{
+  margin-top:12px;
+  padding:10px;
+  border-radius:12px;
+  font-weight:700;
+  text-align:center;
+}
+
+.waiting{background:#ffb300;}
+.accepted{background:#00c853;color:#fff;}
+.rejected{background:#e53935;color:#fff;}
+
+.invoice{
+  background:#111;
+  color:#fff;
+  padding:12px;
+  margin-top:12px;
+  border-radius:12px;
+  font-size:13px;
+  line-height:1.6;
+}
+
+.btn{
+  margin-top:12px;
+  width:100%;
+  padding:12px;
+  border:none;
+  border-radius:12px;
+  background:#111;
+  color:#fff;
+  font-weight:700;
+}
+
+.loader{
+  text-align:center;
+  margin-top:40px;
+}
+
+/* =========================
+CUSTOM TOP ALERT (TOAST)
+========================= */
+
+.toast {
+  position: fixed;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 260px;
+  max-width: 90%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 99999;
+  transition: 0.35s ease;
+  font-weight: 600;
+  color: #fff;
+  backdrop-filter: blur(8px);
+}
+
+/* ✅ SUCCESS = GREEN TRANSPARENT BACKGROUND */
+.toast.success {
+  background: rgba(0, 200, 83, 0.35);
+}
+
+/* ❌ ERROR = RED TRANSPARENT BACKGROUND */
+.toast.error {
+  background: rgba(229, 57, 53, 0.35);
+}
+
+/* SLIDE DOWN */
+.toast.show {
+  top: 20px;
+}
+
+/* ICON SIZE */
+.toast svg {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="header">
+  <img src="logo.png">
+  <div>
+    <h2>C25 Cafe & Bakery</h2>
+    <small>Your Orders</small>
+  </div>
+</div>
+
+<h2 class="title">Your Order Details</h2>
+
+<div id="loader" class="loader">Loading orders...</div>
+<div id="orders"></div>
+
+<script>
+
+const client = supabase.createClient(
+  "https://sogyxzqvbquwrqlqpdaj.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvZ3l4enF2YnF1d3JxbHFwZGFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1OTI0MjcsImV4cCI6MjA5NDE2ODQyN30.kubX_vDW8CiHJR7HLXs7-5RpeNI6DBlJLgt4uEhBEFE"
+);
+
+let user = JSON.parse(localStorage.getItem("c25user")) || {};
+
+async function loadOrders(){
+
+  const loader = document.getElementById("loader");
+
+  if(!user.email){
+    loader.innerText = "Please login first";
+    return;
+  }
+
+  const { data, error } = await client
+    .from("orders")
+    .select("*")
+    .eq("email", user.email)
+    .order("created_at", { ascending:false });
+
+  loader.style.display = "none";
+
+  if(error){
+    console.log(error);
+    return;
+  }
+
+  if(!data || data.length === 0){
+    loader.innerText = "No Orders Found";
+    return;
+  }
+
+  data.forEach(order => {
+
+    // FIX ITEMS SAFE PARSE
+    let items = [];
+    try {
+      items = typeof order.items === "string"
+        ? JSON.parse(order.items)
+        : order.items || [];
+    } catch(e){
+      items = [];
+    }
+
+    let itemsHTML = "";
+    let calcTotal = 0;   // ⭐ IMPORTANT RESET PER ORDER
+
+    items.forEach(i => {
+
+      let qty = i.qty || 1;
+      let price = Number(i.price || 0);
+      let totalItemPrice = price * qty;
+
+      calcTotal += totalItemPrice;
+
+      itemsHTML += `
+        <div class="product">
+          <img src="${i.image}">
+          <div style="flex:1">
+            <h4>${i.name}</h4>
+            <p>Qty: ${qty}</p>
+            <p style="font-weight:700;">
+              ₹${price} × ${qty} = ₹${totalItemPrice}
+            </p>
+          </div>
+        </div>
+      `;
+    });
+
+    document.getElementById("orders").innerHTML += `
+      <div class="order-card">
+
+        <h3>Order ID: ${order.id}</h3>
+
+        ${itemsHTML}
+
+        <div class="status ${order.status || 'waiting'}">
+          ${(order.status || 'waiting').toUpperCase()}
+        </div>
+
+        <div class="invoice">
+          <p><b>Name:</b> ${order.name}</p>
+          <p><b>Phone:</b> ${order.phone}</p>
+          <p><b>Location:</b> ${order.location}</p>
+          <p><b>Pincode:</b> ${order.pincode}</p>
+          <hr>
+          <p>Subtotal: ₹${calcTotal}</p>
+          <p>Delivery: ₹${order.delivery || 40}</p>
+          <p><b>Total: ₹${calcTotal + (order.delivery || 40)}</b></p>
+        </div>
+
+        <button class="btn" onclick="downloadInvoice()">
+          Download Invoice
+        </button>
+
+      </div>
+    `;
+  });
+
+}
+
+function downloadInvoice(){
+  showToast("Invoice download coming soon 🚀", "success");
+}
+
+loadOrders();
+
+</script>
+<script>
+function showToast(message, type = "success") {
+
+  const icons = {
+    success: `
+      <svg width="26" height="26" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" fill="white"/>
+        <path d="M10 14l-2.5-2.5L6 13l4 4 8-8-1.5-1.5z" fill="black"/>
+      </svg>
+    `,
+    error: `
+      <svg width="26" height="26" viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" fill="white"/>
+        <path d="M9 9l6 6M15 9l-6 6"
+          stroke="black" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    `
+  };
+
+  const toast = document.createElement("div");
+  toast.className = `toast ${type}`;
+
+  toast.innerHTML = `
+    ${icons[type]}
+    <span>${message}</span>
+  `;
+
+  document.body.appendChild(toast);
+
+  setTimeout(() => toast.classList.add("show"), 50);
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => toast.remove(), 300);
+  }, 2500);
+}
+</script>
+<script src="back.js"></script>
+<script>
+  createBackButton();
+</script>
+
+</body>
+</html>

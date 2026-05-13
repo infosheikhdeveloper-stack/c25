@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="back.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+
+<title>Restaurant Detail</title>
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:Poppins,sans-serif;
+}
+
+body{
+background:#f5f5f5;
+padding-bottom:110px;
+}
+
+/* HEADER */
+
+.top-header{
+position:sticky;
+top:0;
+z-index:100;
+background:#fff;
+padding:14px 16px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+.logo-side{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.logo{
+width:52px;
+height:52px;
+border-radius:50%;
+object-fit:cover;
+border:2px solid #ff6b00;
+}
+
+.logo-side h2{
+font-size:18px;
+font-weight:700;
+}
+
+.logo-side p{
+font-size:13px;
+color:#ff6b00;
+margin-top:3px;
+}
+
+.menu-btn{
+width:42px;
+height:42px;
+border:none;
+border-radius:12px;
+background:#fff3eb;
+color:#ff6b00;
+font-size:18px;
+}
+
+/* PRODUCT */
+
+.detail-section{
+padding:16px;
+}
+
+.product-image{
+width:100%;
+height:270px;
+object-fit:cover;
+border-radius:24px;
+box-shadow:0 4px 15px rgba(0,0,0,.12);
+}
+
+.food-tag{
+display:inline-block;
+background:#fff1e7;
+color:#ff6b00;
+padding:8px 16px;
+border-radius:30px;
+font-size:13px;
+font-weight:600;
+margin-top:18px;
+}
+
+.product-title{
+font-size:28px;
+font-weight:700;
+margin-top:14px;
+color:#111;
+}
+
+.product-desc{
+font-size:15px;
+color:#666;
+line-height:1.7;
+margin-top:10px;
+}
+
+.price-rating{
+margin-top:18px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+.price{
+font-size:32px;
+font-weight:700;
+color:#ff6b00;
+}
+
+.rating{
+background:#fff;
+padding:10px 14px;
+border-radius:14px;
+font-size:14px;
+font-weight:600;
+box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+.rating i{
+color:#ffb300;
+margin-right:4px;
+}
+
+/* INFO BOX */
+
+.info-grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:14px;
+margin-top:22px;
+}
+
+.info-card{
+background:#fff;
+padding:18px;
+border-radius:20px;
+text-align:center;
+box-shadow:0 2px 10px rgba(0,0,0,.06);
+}
+
+.info-card i{
+font-size:22px;
+color:#ff6b00;
+margin-bottom:10px;
+}
+
+.info-card h4{
+font-size:14px;
+color:#777;
+margin-bottom:5px;
+}
+
+.info-card p{
+font-size:16px;
+font-weight:700;
+}
+
+/* TERMS */
+
+.terms-box{
+background:#fff;
+padding:18px;
+border-radius:22px;
+margin-top:24px;
+box-shadow:0 2px 10px rgba(0,0,0,.06);
+}
+
+.terms-box h3{
+font-size:20px;
+margin-bottom:12px;
+}
+
+.terms-box p{
+line-height:1.8;
+font-size:14px;
+color:#666;
+}
+
+/* MORE PRODUCTS */
+
+.more-title{
+margin-top:28px;
+font-size:22px;
+font-weight:700;
+}
+
+.more-products{
+margin-top:16px;
+display:flex;
+overflow-x:auto;
+gap:14px;
+padding-bottom:10px;
+}
+
+.more-products::-webkit-scrollbar{
+display:none;
+}
+
+.more-card{
+min-width:170px;
+background:#fff;
+border-radius:22px;
+padding:12px;
+box-shadow:0 2px 10px rgba(0,0,0,.08);
+}
+
+.more-card img{
+width:100%;
+height:120px;
+object-fit:cover;
+border-radius:16px;
+}
+
+.more-card h4{
+margin-top:10px;
+font-size:16px;
+}
+
+.more-card p{
+color:#ff6b00;
+font-weight:700;
+margin-top:6px;
+}
+
+/* BOTTOM BAR */
+
+.bottom-bar{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+background:#fff;
+padding:16px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 -3px 15px rgba(0,0,0,.1);
+}
+
+.total-price h5{
+font-size:13px;
+color:#777;
+margin-bottom:4px;
+}
+
+.total-price h2{
+font-size:28px;
+color:#111;
+}
+
+.cart-btn{
+background:#ff6b00;
+color:#fff;
+border:none;
+padding:16px 24px;
+border-radius:18px;
+font-size:16px;
+font-weight:700;
+display:flex;
+align-items:center;
+gap:10px;
+}
+
+#locationDisplay {
+  display: inline-block;
+  animation: fadeLoc 3s infinite;
+}
+
+@keyframes fadeLoc {
+  0% { opacity: 0; transform: translateY(-5px); }
+  20% { opacity: 1; transform: translateY(0); }
+  50% { opacity: 1; }
+  70% { opacity: 0; transform: translateY(5px); }
+  100% { opacity: 0; }
+}
+/* =========================
+TOAST ALERT (GLOBAL)
+========================= */
+
+.toast {
+  position: fixed;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 260px;
+  max-width: 90%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 99999;
+  transition: 0.35s ease;
+  font-weight: 600;
+  color: #fff;
+  backdrop-filter: blur(8px);
+}
+
+/* GREEN TRANSPARENT */
+.toast.success {
+  background: rgba(0, 200, 83, 0.35);
+}
+
+/* RED TRANSPARENT */
+.toast.error {
+  background: rgba(229, 57, 53, 0.35);
+}
+
+.toast.show {
+  top: 20px;
+}
+
+.toast svg {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+</style>
+
+</head>
+<body>
+
+<!-- HEADER -->
+
+<header class="top-header">
+
+<div class="logo-side">
+
+<img src="logo.png"
+class="logo">
+
+<div>
+
+<h2>C25 Cafe & Bakery</h2>
+
+<p>
+  <i class="fa-solid fa-location-dot"></i>
+  <span id="locationDisplay">Loading...</span>
+</p>
+
+</div>
+
+</div>
+
+<button class="menu-btn">
+<i class="fa-solid fa-bars"></i>
+</button>
+
+</header>
+
+<!-- DETAIL SECTION -->
+
+<section class="detail-section">
+
+<img id="productImage"
+class="product-image">
+
+<div class="food-tag">
+Restaurant Special
+</div>
+
+<h1 id="productTitle"
+class="product-title"></h1>
+
+<p id="productDesc"
+class="product-desc"></p>
+
+<div class="price-rating">
+
+<div id="productPrice"
+class="price">
+₹0
+</div>
+
+<div class="rating">
+<i class="fa-solid fa-star"></i>
+4.9
+</div>
+
+</div>
+
+<!-- INFO -->
+
+<div class="info-grid">
+
+<div class="info-card">
+<i class="fa-solid fa-fire"></i>
+<h4>Calories</h4>
+<p>420 kcal</p>
+</div>
+
+<div class="info-card">
+<i class="fa-solid fa-drumstick-bite"></i>
+<h4>Protein</h4>
+<p>18g</p>
+</div>
+
+<div class="info-card">
+<i class="fa-solid fa-cookie"></i>
+<h4>Fat</h4>
+<p>14g</p>
+</div>
+
+<div class="info-card">
+<i class="fa-solid fa-bowl-food"></i>
+<h4>Freshness</h4>
+<p>100%</p>
+</div>
+
+</div>
+
+<!-- TERMS -->
+
+<div class="terms-box">
+
+<h3>Terms & Conditions</h3>
+
+<p>
+All restaurant meals are freshly prepared
+using quality ingredients and hygienic cooking
+methods. Product appearance and garnishing
+may slightly vary from images. Orders once
+prepared cannot be cancelled or returned.
+Delivery timing may vary during busy hours
+or weather conditions.
+</p>
+
+</div>
+
+<!-- MORE PRODUCTS -->
+
+<h2 class="more-title">
+More Restaurant Foods
+</h2>
+
+<div class="more-products"
+id="moreProducts">
+
+</div>
+
+</section>
+
+<!-- BOTTOM -->
+
+<div class="bottom-bar">
+
+<div class="total-price">
+
+<h5>Total Price</h5>
+
+<h2 id="bottomPrice">
+₹0
+</h2>
+
+</div>
+
+<button class="cart-btn"
+onclick="addToCart()">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+Add To Cart
+
+</button>
+
+</div>
+
+<script>
+
+/* PRODUCT */
+
+const product =
+JSON.parse(
+localStorage.getItem("selectedProduct")
+);
+
+/* SHOW PRODUCT */
+
+document.getElementById(
+"productImage"
+).src = product.image;
+
+document.getElementById(
+"productTitle"
+).innerText = product.title;
+
+document.getElementById(
+"productDesc"
+).innerText = product.description;
+
+document.getElementById(
+"productPrice"
+).innerText =
+"₹" + product.price;
+
+document.getElementById(
+"bottomPrice"
+).innerText =
+"₹" + product.price;
+
+/* ADD TO CART */
+
+function addToCart(){
+
+let cart =
+JSON.parse(
+localStorage.getItem("c25cart")
+) || [];
+
+cart.push({
+
+name: product.title,
+description: product.description,
+price: product.price,
+image: product.image
+
+});
+
+localStorage.setItem(
+"c25cart",
+JSON.stringify(cart)
+);
+
+showToast("Added To Cart Successfully", "success");
+
+}
+
+/* MORE PRODUCTS */
+
+const moreProducts =
+document.getElementById(
+"moreProducts"
+);
+
+for(let i=0; i<5; i++){
+
+moreProducts.innerHTML += `
+
+<div class="more-card">
+
+<img src="${product.image}">
+
+<h4>${product.title}</h4>
+
+<p>₹${product.price}</p>
+
+</div>
+
+`;
+
+}
+function loadUserLocation() {
+
+  const user = JSON.parse(localStorage.getItem("c25user"));
+
+  const display = document.getElementById("locationDisplay");
+
+  if (!user) {
+    display.innerText = "Please Login";
+    return;
+  }
+
+  const pincode = user.pincode || "N/A";
+  const location = user.location || "No Location";
+
+  let showPincode = true;
+
+  setInterval(() => {
+
+    if (showPincode) {
+      display.innerText = "Pincode: " + pincode;
+    } else {
+      display.innerText = location;
+    }
+
+    showPincode = !showPincode;
+
+  }, 3000);
+
+}
+
+loadUserLocation();
+</script>
+
+<script>
+function showToast(message, type = "success") {
+
+  const icons = {
+    success: `
+      <svg viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" fill="white"/>
+        <path d="M10 14l-2.5-2.5L6 13l4 4 8-8-1.5-1.5z" fill="black"/>
+      </svg>
+    `,
+    error: `
+      <svg viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" fill="white"/>
+        <path d="M9 9l6 6M15 9l-6 6"
+          stroke="black" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    `
+  };
+
+  const toast = document.createElement("div");
+  toast.className = `toast ${type}`;
+
+  toast.innerHTML = `
+    ${icons[type]}
+    <span>${message}</span>
+  `;
+
+  document.body.appendChild(toast);
+
+  setTimeout(() => toast.classList.add("show"), 50);
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => toast.remove(), 300);
+  }, 2500);
+}
+</script>
+
+<script src="back.js"></script>
+<script>
+  createBackButton();
+</script>
+</body>
+</html>

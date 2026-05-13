@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link rel="stylesheet" href="back.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+
+<title>Payment - C25 Cafe</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<style>
+
+/* BASE */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:sans-serif;
+}
+
+body{
+  background:#f5f5f5;
+  padding:15px;
+  padding-bottom:120px;
+}
+
+/* HEADER */
+.header{
+  background:#111;
+  color:#fff;
+  padding:15px;
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.header img{
+  width:45px;
+  height:45px;
+  border-radius:50%;
+}
+
+/* BOX */
+.box{
+  background:#fff;
+  padding:15px;
+  border-radius:16px;
+  margin-top:15px;
+  box-shadow:0 2px 10px rgba(0,0,0,.05);
+}
+
+/* PAYMENT METHOD */
+.method{
+  padding:12px;
+  border:1px solid #ddd;
+  border-radius:12px;
+  margin-top:10px;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+.method input{
+  transform:scale(1.2);
+}
+
+.disabled{
+  opacity:0.4;
+}
+
+/* INVOICE */
+.invoice p{
+  font-size:14px;
+  margin-top:5px;
+}
+
+hr{
+  margin:10px 0;
+}
+
+/* BUTTON */
+.btn{
+  width:100%;
+  padding:14px;
+  border:none;
+  border-radius:12px;
+  background:#25D366;
+  color:#fff;
+  font-size:16px;
+  font-weight:700;
+  margin-top:15px;
+}
+
+/* =========================
+TOAST ALERT (GLOBAL)
+========================= */
+
+.toast {
+  position: fixed;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 260px;
+  max-width: 90%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 99999;
+  transition: 0.35s ease;
+  font-weight: 600;
+  color: #fff;
+  backdrop-filter: blur(8px);
+}
+
+/* GREEN TRANSPARENT */
+.toast.success {
+  background: rgba(0, 200, 83, 0.35);
+}
+
+/* RED TRANSPARENT */
+.toast.error {
+  background: rgba(229, 57, 53, 0.35);
+}
+
+.toast.show {
+  top: 20px;
+}
+
+.toast svg {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <img src="logo.png">
+  <div>
+    <h3>C25 Cafe & Bakery</h3>
+    <small>Secure Payment</small>
+  </div>
+</div>
+
+<!-- PAYMENT -->
+<div class="box">
+
+<h3>Payment Method</h3>
+
+<label class="method">
+  <span><i class="fa-brands fa-whatsapp"></i> WhatsApp Payment</span>
+  <input type="radio" name="pay" value="whatsapp" checked>
+</label>
+
+<label class="method">
+  <span>Cash on Delivery</span>
+  <input type="radio" name="pay" value="cod">
+</label>
+
+<div class="method disabled">
+  PhonePe
+</div>
+
+<div class="method disabled">
+  Google Pay
+</div>
+
+<div class="method disabled">
+  Debit Card
+</div>
+
+</div>
+
+<!-- INVOICE -->
+<div class="box invoice">
+
+<h3>Invoice</h3>
+
+<p><b>C25 Cafe & Bakery</b></p>
+<p>📞 +91 7051932522</p>
+
+<hr>
+
+<div id="userInfo"></div>
+<div id="items"></div>
+
+<hr>
+
+<h3 id="total"></h3>
+
+</div>
+
+<!-- BUTTON -->
+<button class="btn" onclick="confirmOrder()">
+Confirm Order
+</button>
+
+<script>
+
+/* SUPABASE */
+const client = supabase.createClient(
+  "https://sogyxzqvbquwrqlqpdaj.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvZ3l4enF2YnF1d3JxbHFwZGFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1OTI0MjcsImV4cCI6MjA5NDE2ODQyN30.kubX_vDW8CiHJR7HLXs7-5RpeNI6DBlJLgt4uEhBEFE"
+);
+
+/* DATA */
+let cart = JSON.parse(localStorage.getItem("cartBackup")) || [];
+let user = JSON.parse(localStorage.getItem("c25user")) || {};
+
+let subtotal = 0;
+
+/* USER */
+document.getElementById("userInfo").innerHTML = `
+<p><b>Name:</b> ${user.name}</p>
+<p><b>Phone:</b> ${user.phone}</p>
+<p><b>Email:</b> ${user.email}</p>
+<p><b>Location:</b> ${user.location}</p>
+<p><b>Pincode:</b> ${user.pincode}</p>
+`;
+
+/* ITEMS */
+cart.forEach(i => {
+
+  let qty = i.qty || 1;
+  let price = Number(i.price);
+  let totalItem = price * qty;
+
+  subtotal += totalItem;
+
+  document.getElementById("items").innerHTML += `
+    <p>
+      ${i.name} × ${qty} = ₹${totalItem}
+    </p>
+  `;
+});
+
+let total = subtotal + 40;
+
+document.getElementById("total").innerText =
+"Total: ₹" + total;
+
+
+
+/* CONFIRM ORDER */
+async function confirmOrder(){
+
+  const method = document.querySelector("input[name='pay']:checked").value;
+
+  const order = {
+    name: user.name,
+    phone: user.phone,
+    email: user.email,
+    location: user.location,
+    pincode: user.pincode,
+    items: cart,
+    subtotal,
+    delivery: 40,
+    total,
+    payment_method: method
+  };
+
+  /* SAVE TO SUPABASE */
+  const { error } = await client
+    .from("orders")
+    .insert([order]);
+
+  if(error){
+    alert(error.message);
+    return;
+  }
+
+  /* WHATSAPP MESSAGE */
+  let msg = "🧾 ORDER RECEIPT\n\n";
+
+  cart.forEach(i=>{
+    msg += `${i.name} - ₹${i.price}\n`;
+  });
+
+  msg += `\nTotal: ₹${total}`;
+  msg += `\nName: ${user.name}`;
+  msg += `\nPhone: ${user.phone}`;
+  msg += `\nLocation: ${user.location}`;
+  msg += `\nPincode: ${user.pincode}`;
+
+  window.open(
+    "https://wa.me/917051932522?text=" + encodeURIComponent(msg),
+    "_blank"
+  );
+
+  showToast("Order Placed Successfully ");
+
+  localStorage.removeItem("c25cart");
+}
+
+</script>
+
+<script>
+function showToast(message, type = "success") {
+
+  const icons = {
+    success: `
+      <svg viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" fill="white"/>
+        <path d="M10 14l-2.5-2.5L6 13l4 4 8-8-1.5-1.5z" fill="black"/>
+      </svg>
+    `,
+    error: `
+      <svg viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" fill="white"/>
+        <path d="M9 9l6 6M15 9l-6 6"
+          stroke="black" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    `
+  };
+
+  const toast = document.createElement("div");
+  toast.className = `toast ${type}`;
+
+  toast.innerHTML = `
+    ${icons[type]}
+    <span>${message}</span>
+  `;
+
+  document.body.appendChild(toast);
+
+  setTimeout(() => toast.classList.add("show"), 50);
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => toast.remove(), 300);
+  }, 2500);
+}
+</script>
+
+<script src="back.js"></script>
+<script>
+  createBackButton();
+</script>
+</body>
+</html>

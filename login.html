@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>C25 Cafe & Bakery</title>
+
+<link rel="stylesheet" href="login.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- LOGO -->
+<div class="logo">
+
+  <div class="logo-circle">
+    <img src="logo.png">
+  </div>
+
+  <h2>C25 Cafe & Bakery</h2>
+
+</div>
+
+  <!-- FORM BOX -->
+  <div class="form-box">
+
+    <!-- LOGIN -->
+    <div class="form login-form">
+      <h3>Login</h3>
+
+      <input type="email"
+      id="loginEmail"
+      placeholder="Email">
+
+      <input type="password"
+      id="loginPassword"
+      placeholder="Password">
+
+      <button onclick="loginUser()">
+        Login
+      </button>
+
+      <p onclick="showSignup()">
+        Create account
+      </p>
+    </div>
+
+    <!-- SIGNUP -->
+    <div class="form signup-form">
+
+      <h3>Signup</h3>
+
+      <input type="text"
+      id="name"
+      placeholder="Name">
+
+      <input type="text"
+      id="phone"
+      placeholder="Phone">
+
+      <input type="email"
+      id="email"
+      placeholder="Email">
+
+      <input type="password"
+      id="password"
+      placeholder="Password">
+      
+      <!-- PINCODE -->
+
+<select id="pincode">
+
+<option value="">
+Choose Pincode
+</option>
+
+<option value="193401">
+193401
+</option>
+
+<option value="193402">
+193402
+</option>
+
+<option value="193403">
+193403
+</option>
+
+<option value="193404">
+193404
+</option>
+
+</select>
+
+<!-- LOCATION -->
+
+<button type="button"
+class="location-btn"
+onclick="getLocation()">
+
+Use Current Location
+
+</button>
+
+<p id="locationText">
+Location not selected
+</p>
+
+      <button onclick="signupUser()">
+        Signup
+      </button>
+
+      <p onclick="showLogin()">
+        Already have account
+      </p>
+
+    </div>
+
+  </div>
+</div>
+
+<div class="custom-alert" id="customAlert">
+Alert
+</div>
+
+<!-- ================= JAVASCRIPT ================= -->
+
+<script>
+
+const client = window.supabase.createClient(
+  "https://sogyxzqvbquwrqlqpdaj.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvZ3l4enF2YnF1d3JxbHFwZGFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1OTI0MjcsImV4cCI6MjA5NDE2ODQyN30.kubX_vDW8CiHJR7HLXs7-5RpeNI6DBlJLgt4uEhBEFE"
+);
+
+/* ================= UI ================= */
+
+function showSignup(){
+  document.querySelector(".form-box")
+  .classList.add("active");
+}
+
+function showLogin(){
+  document.querySelector(".form-box")
+  .classList.remove("active");
+}
+
+
+let userLocation = "";
+let userLat = "";
+let userLng = "";
+
+/* ================= LOCATION ================= */
+
+async function getLocation(){
+
+if(navigator.geolocation){
+
+navigator.geolocation.getCurrentPosition(
+
+async (position)=>{
+
+userLat =
+position.coords.latitude;
+
+userLng =
+position.coords.longitude;
+
+/* GET AREA NAME */
+
+const response =
+await fetch(
+`https://nominatim.openstreetmap.org/reverse?format=json&lat=${userLat}&lon=${userLng}`
+);
+
+const data =
+await response.json();
+
+const area =
+data.address.suburb ||
+data.address.town ||
+data.address.village ||
+data.address.city ||
+"Unknown Area";
+
+userLocation = area;
+
+document.getElementById(
+"locationText"
+).innerText =
+area;
+
+},
+
+()=>{
+
+showAlert(
+"Location permission denied"
+);
+
+}
+
+);
+
+}
+
+}
+
+
+/* ================= SIGNUP ================= */
+
+async function signupUser(){
+
+  const name =
+  document.getElementById("name").value.trim();
+
+  const phone =
+  document.getElementById("phone").value.trim();
+
+  const email =
+  document.getElementById("email").value.trim();
+
+  const password =
+  document.getElementById("password").value.trim();
+
+  const pincode =
+  document.getElementById("pincode").value;
+
+  if(
+    !name ||
+    !phone ||
+    !email ||
+    !password ||
+    !pincode
+  ){
+    showAlert("Fill all fields");
+    return;
+  }
+
+  // ALLOWED PINCODES
+
+  const allowedPincodes = [
+    "193401",
+    "193402",
+    "193403",
+    "193404"
+  ];
+
+  if(
+    !allowedPincodes.includes(pincode)
+  ){
+    showAlert(
+    "Service not available in your area"
+    );
+    return;
+  }
+
+  if(!userLocation){
+    showAlert(
+"Please choose current location"
+);
+    return;
+  }
+
+  // CHECK EMAIL
+
+  const { data: exist } = await client
+    .from("users")
+    .select("*")
+    .eq("email", email)
+    .maybeSingle();
+
+  if(exist){
+    showAlert("Email already exists");
+    return;
+  }
+
+  // INSERT USER
+
+  const { error } = await client
+    .from("users")
+    .insert([
+      {
+        name,
+        phone,
+        email,
+        password,
+        pincode,
+        location: userLocation,
+        latitude: userLat,
+        longitude: userLng
+      }
+    ]);
+
+  if(error){
+
+    showAlert(error.message);
+
+  }else{
+
+    showAlert(
+"Signup Successfully"
+);
+
+    showLogin();
+
+  }
+
+}
+
+/* ================= LOGIN ================= */
+
+async function loginUser(){
+
+  const email =
+  document.getElementById("loginEmail").value.trim();
+
+  const password =
+  document.getElementById("loginPassword").value.trim();
+
+  if(!email || !password){
+    showAlert("Enter email & password");
+    return;
+  }
+
+  const { data, error } = await client
+    .from("users")
+    .select("*")
+    .eq("email", email)
+    .eq("password", password)
+    .maybeSingle();
+
+  if(error || !data){
+    showAlert("Invalid Login");
+    return;
+  }
+
+  // SAVE USER
+  localStorage.setItem(
+    "c25user",
+    JSON.stringify(data)
+  );
+
+  showAlert("Welcome " + data.name);
+
+  window.location.href = "account.html";
+
+}
+function showAlert(message){
+
+const alertBox =
+document.getElementById("customAlert");
+
+alertBox.innerText = message;
+
+alertBox.classList.add("show");
+
+setTimeout(()=>{
+
+alertBox.classList.remove("show");
+
+},2500);
+
+}
+
+
+</script>
+
+</body>
+</html>

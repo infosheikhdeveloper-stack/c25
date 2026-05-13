@@ -1,0 +1,737 @@
+<!-- =========================
+FILE: index.html
+SUPABASE DYNAMIC FOOD APP
+========================= -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>C25 Apple Cafe</title>
+
+<!-- FONT AWESOME -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<!-- CSS -->
+<link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+
+
+
+<!-- =========================
+TOP HEADER
+========================= -->
+
+<header class="top-header">
+
+  <div class="logo-side">
+
+    <img src="logo.png" class="logo">
+
+    <div>
+
+      <h2>C25 Apple</h2>
+
+      <p>
+        <i class="fa-solid fa-location-dot"></i>
+        Kunzer, Kashmir
+      </p>
+
+    </div>
+
+  </div>
+
+  <button class="menu-btn">
+    <i class="fa-solid fa-bars"></i>
+  </button>
+
+</header>
+
+
+
+<!-- =========================
+HERO SECTION
+========================= -->
+
+<section class="hero">
+
+  <!-- SLIDE 1 -->
+  <div class="hero-slide active">
+
+    <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?q=80&w=1200&auto=format&fit=crop">
+
+    <div class="overlay"></div>
+
+    <div class="hero-text">
+
+      <h1>Fresh Bakery</h1>
+
+      <p>Delicious Cakes & Pastries</p>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- SLIDE 2 -->
+  <div class="hero-slide">
+
+    <img src="https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?q=80&w=1200&auto=format&fit=crop">
+
+    <div class="overlay"></div>
+
+    <div class="hero-text">
+
+      <h1>Restaurant Food</h1>
+
+      <p>Hot & Tasty Meals</p>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- SLIDE 3 -->
+  <div class="hero-slide">
+
+    <img src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?q=80&w=1200&auto=format&fit=crop">
+
+    <div class="overlay"></div>
+
+    <div class="hero-text">
+
+      <h1>Cold Drinks</h1>
+
+      <p>Refreshing Summer Specials</p>
+
+    </div>
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================
+SEARCH BAR
+========================= -->
+
+<section class="search-section">
+
+  <div class="search-box">
+
+    <i class="fa-solid fa-magnifying-glass"></i>
+
+    <input
+    type="text"
+    id="searchInput"
+    placeholder="Search bakery, pizza, coffee...">
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================
+CATEGORIES
+========================= -->
+
+<section class="categories">
+
+  <button class="cat-btn active"
+  data-category="all">
+
+    <i class="fa-solid fa-border-all"></i>
+    <span>All</span>
+
+  </button>
+
+
+
+  <button class="cat-btn"
+  data-category="bakery">
+
+    <i class="fa-solid fa-cake-candles"></i>
+    <span>Bakery</span>
+
+  </button>
+
+
+
+  <button class="cat-btn"
+  data-category="restaurant">
+
+    <i class="fa-solid fa-utensils"></i>
+    <span>Restaurant</span>
+
+  </button>
+
+
+
+  <button class="cat-btn"
+  data-category="drink">
+
+    <i class="fa-solid fa-mug-hot"></i>
+    <span>Drink</span>
+
+  </button>
+
+
+
+  <button class="cat-btn"
+  data-category="icecream">
+
+    <i class="fa-solid fa-ice-cream"></i>
+    <span>Icecream</span>
+
+  </button>
+
+</section>
+
+
+
+<!-- =========================
+SUPABASE PRODUCTS
+========================= -->
+
+<div id="productsContainer"></div>
+
+
+
+<!-- =========================
+MENU BOOK
+========================= -->
+
+<section class="menu-book">
+
+  <div class="menu-box">
+
+    <div>
+
+      <h2>Food Menu</h2>
+
+      <p>Check Full Restaurant Menu</p>
+
+    </div>
+
+    <button>Open</button>
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================
+ADVERTISEMENT SLIDER
+========================= -->
+
+<section class="ads-section">
+
+  <div class="ads-slider">
+
+    <img src="https://images.unsplash.com/photo-1552566626-52f8b828add9?q=80&w=1200&auto=format&fit=crop"
+    class="ad-slide active">
+
+    <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1200&auto=format&fit=crop"
+    class="ad-slide">
+
+    <img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?q=80&w=1200&auto=format&fit=crop"
+    class="ad-slide">
+
+  </div>
+
+
+
+  <!-- DOTS -->
+  <div class="dots">
+
+    <span class="dot active"></span>
+    <span class="dot"></span>
+    <span class="dot"></span>
+
+  </div>
+
+</section>
+
+
+
+<!-- =========================
+BOTTOM NAVIGATION
+LINKABLE NAVBAR
+========================= -->
+
+<nav class="bottom-nav">
+
+  <!-- HOME -->
+  <a href="index.html" class="nav-item active">
+
+    <i class="fa-solid fa-house"></i>
+
+    <span>Home</span>
+
+  </a>
+
+
+
+  <!-- CART -->
+<a href="cart.html" class="nav-item cart-nav">
+
+  <div class="cart-icon-box">
+
+    <i class="fa-solid fa-cart-shopping"></i>
+
+    <span id="cartCount">0</span>
+
+  </div>
+
+  <span>Cart</span>
+
+</a>
+
+
+
+  <!-- ORDER -->
+  <a href="order.html" class="nav-item">
+
+    <i class="fa-solid fa-bag-shopping"></i>
+
+    <span>Your Order</span>
+
+  </a>
+
+
+
+  <!-- ACCOUNT -->
+  <a href="account.html" class="nav-item">
+
+    <i class="fa-solid fa-user"></i>
+
+    <span>Account</span>
+
+  </a>
+
+</nav>
+
+
+
+
+
+<!-- =========================
+SUPABASE CDN
+========================= -->
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<!-- SUPABASE FILE -->
+<script src="supabase.js"></script>
+
+
+
+<!-- =========================
+MAIN JAVASCRIPT
+========================= -->
+
+<script>
+
+
+
+/* =========================
+HERO SLIDER
+========================= */
+
+const heroSlides =
+document.querySelectorAll(".hero-slide");
+
+let heroIndex = 0;
+
+function showHeroSlide(){
+
+  heroSlides.forEach((slide)=>{
+    slide.classList.remove("active");
+  });
+
+  heroSlides[heroIndex]
+  .classList.add("active");
+
+  heroIndex++;
+
+  if(heroIndex >= heroSlides.length){
+    heroIndex = 0;
+  }
+
+}
+
+setInterval(showHeroSlide, 3000);
+
+
+
+
+/* =========================
+ADVERTISEMENT SLIDER
+========================= */
+
+const adSlides =
+document.querySelectorAll(".ad-slide");
+
+const dots =
+document.querySelectorAll(".dot");
+
+let adIndex = 0;
+
+function showAds(){
+
+  adSlides.forEach((slide)=>{
+    slide.classList.remove("active");
+  });
+
+  dots.forEach((dot)=>{
+    dot.classList.remove("active");
+  });
+
+  adSlides[adIndex]
+  .classList.add("active");
+
+  dots[adIndex]
+  .classList.add("active");
+
+  adIndex++;
+
+  if(adIndex >= adSlides.length){
+    adIndex = 0;
+  }
+
+}
+
+setInterval(showAds, 3000);
+
+
+
+
+/* =========================
+LOAD PRODUCTS FROM SUPABASE
+========================= */
+
+async function loadProducts(){
+
+  const container =
+  document.getElementById("productsContainer");
+
+  container.innerHTML =
+  "<p style='padding:20px'>Loading...</p>";
+
+
+
+  const { data, error } =
+  await supabaseClient
+  .from("products")
+  .select("*");
+
+
+
+  if(error){
+
+    console.log(error);
+
+    container.innerHTML =
+    "Error loading products";
+
+    return;
+  }
+
+
+
+  container.innerHTML = "";
+
+
+
+  // GROUP PRODUCTS
+  const categories = {};
+
+  data.forEach((product)=>{
+
+    const category =
+    product.category.toLowerCase();
+
+    if(!categories[category]){
+      categories[category] = [];
+    }
+
+    categories[category].push(product);
+
+  });
+
+
+
+
+  // CREATE HTML
+  for(let category in categories){
+
+    let section =
+    document.createElement("section");
+
+    section.className =
+    "product-section";
+
+    section.setAttribute(
+      "data-category",
+      category
+    );
+
+
+
+    let cards = "";
+
+
+
+    categories[category].forEach((item)=>{
+
+      cards += `
+
+      <div class="product-card"
+      data-name="${item.title}">
+
+        <img src="${item.image}">
+
+        <h3>${item.title}</h3>
+
+        <p>${item.description}</p>
+
+        <div class="price-row">
+
+          <span>${item.price}</span>
+
+          <button onclick='addToCart(
+"${item.title}",
+"${item.description}",
+"${item.price}",
+"${item.image}"
+)'>+</button>
+
+        </div>
+
+      </div>
+
+      `;
+
+    });
+
+
+
+
+    section.innerHTML = `
+
+    <div class="section-title">
+
+      <h2>${category}</h2>
+
+      <span>See All</span>
+
+    </div>
+
+
+
+    <div class="product-slider">
+
+      ${cards}
+
+    </div>
+
+    `;
+
+
+
+    container.appendChild(section);
+
+  }
+
+
+
+  setupSearch();
+  setupCategoryFilter();
+
+}
+
+loadProducts();
+
+
+
+
+/* =========================
+SEARCH
+========================= */
+
+function setupSearch(){
+
+  const searchInput =
+  document.getElementById("searchInput");
+
+  searchInput.addEventListener("keyup", ()=>{
+
+    const value =
+    searchInput.value.toLowerCase();
+
+    const cards =
+    document.querySelectorAll(".product-card");
+
+
+
+    cards.forEach((card)=>{
+
+      const name =
+      card.dataset.name.toLowerCase();
+
+      if(name.includes(value)){
+
+        card.style.display = "block";
+
+      }
+
+      else{
+
+        card.style.display = "none";
+
+      }
+
+    });
+
+  });
+
+}
+
+
+
+
+/* =========================
+CATEGORY FILTER
+========================= */
+
+function setupCategoryFilter(){
+
+  const catBtns =
+  document.querySelectorAll(".cat-btn");
+
+  const sections =
+  document.querySelectorAll(".product-section");
+
+
+
+  catBtns.forEach((btn)=>{
+
+    btn.addEventListener("click", ()=>{
+
+      catBtns.forEach((b)=>{
+        b.classList.remove("active");
+      });
+
+      btn.classList.add("active");
+
+
+
+      const category =
+      btn.dataset.category;
+
+
+
+      if(category === "all"){
+
+        sections.forEach((section)=>{
+          section.style.display = "block";
+        });
+
+      }
+
+      else{
+
+        sections.forEach((section)=>{
+
+          if(
+            section.dataset.category
+            === category
+          ){
+
+            section.style.display = "block";
+
+          }
+
+          else{
+
+            section.style.display = "none";
+
+          }
+
+        });
+
+      }
+
+    });
+
+  });
+
+}
+/* =========================
+ADD TO CART
+========================= */
+
+function addToCart(name, description, price, image){
+
+  let cart =
+  JSON.parse(localStorage.getItem("c25cart")) || [];
+
+  const product = {
+    name,
+    description,
+    price,
+    image
+  };
+
+  cart.push(product);
+
+  localStorage.setItem(
+    "c25cart",
+    JSON.stringify(cart)
+  );
+
+  alert("Added to cart successfully");
+
+  updateCartCount();
+
+}
+
+/* =========================
+UPDATE CART COUNT
+========================= */
+
+function updateCartCount(){
+
+  let cart =
+  JSON.parse(localStorage.getItem("c25cart")) || [];
+
+  const count =
+  document.getElementById("cartCount");
+
+  count.innerText = cart.length;
+
+}
+
+/* =========================
+START
+========================= */
+
+updateCartCount();
+
+
+</script>
+
+</body>
+</html>

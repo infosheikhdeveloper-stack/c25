@@ -1,0 +1,389 @@
+<!-- =========================
+FILE: cart.html
+DYNAMIC CART PAGE
+========================= -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<link rel="stylesheet" href="back.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Your Cart</title>
+
+<!-- FONT AWESOME -->
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<!-- CSS -->
+
+<link rel="stylesheet" href="cart.css">
+<link rel="stylesheet" href="nav.css">
+
+</head>
+<body>
+
+<!-- =========================
+TOP HEADER
+========================= -->
+
+<header class="top-header">
+
+  <div class="logo-side">
+
+    <img src="logo.png" class="logo">
+
+    <div>
+
+      <h2>C25 Cafe & Bakery</h2>
+
+      <p>
+  <i class="fa-solid fa-location-dot"></i>
+  <span id="locationDisplay">Loading...</span>
+</p>
+
+    </div>
+
+  </div>
+
+
+
+</header>
+
+
+
+
+
+<!-- =========================
+PAGE TITLE
+========================= -->
+
+<section class="cart-title">
+
+  <h1>Your Cart</h1>
+
+  <p>Added food products</p>
+
+</section>
+
+
+
+
+
+<!-- =========================
+CART PRODUCTS
+========================= -->
+
+<section class="cart-container" id="cartContainer">
+
+  <!-- PRODUCTS AUTO LOAD HERE -->
+
+</section>
+
+
+
+
+
+<!-- EMPTY CART -->
+
+<div class="empty-cart" id="emptyCart">
+
+  <i class="fa-solid fa-cart-shopping"></i>
+
+  <h2>Your cart is empty</h2>
+
+  <p>Add products to cart</p>
+
+</div>
+
+
+
+
+
+<!-- =========================
+TOTAL PRICE BOX
+========================= -->
+
+<section class="total-section">
+
+  <div class="total-box">
+
+    <div class="total-row">
+      <span>Subtotal</span>
+      <span id="subtotal">₹0</span>
+    </div>
+
+    <div class="total-row">
+      <span>Delivery</span>
+      <span id="delivery">₹40</span>
+    </div>
+
+    <div class="line"></div>
+
+    <div class="total-row final-total">
+      <span>Total</span>
+      <span id="total">₹0</span>
+    </div>
+
+  </div>
+
+</section>
+
+
+
+
+
+<!-- =========================
+BUY NOW BUTTON
+========================= -->
+
+<section class="buy-section">
+
+ <button class="buy-btn" onclick="goToDetail()">
+  <i class="fa-solid fa-bag-shopping"></i>
+  Book Now
+</button>
+
+</section>
+
+
+
+
+
+<!-- =========================
+BOTTOM NAVIGATION
+========================= -->
+
+<nav class="bottom-nav">
+
+  <!-- HOME -->
+  <a href="index.html" class="nav-item">
+
+    <i class="fa-solid fa-house"></i>
+
+    <span>Home</span>
+
+  </a>
+
+  <!-- CART -->
+  <a href="cart.html" class="nav-item active">
+
+    <i class="fa-solid fa-cart-shopping"></i>
+
+    <span>Cart</span>
+
+  </a>
+
+  <!-- ORDER -->
+  <a href="order.html" class="nav-item">
+
+    <i class="fa-solid fa-bag-shopping"></i>
+
+    <span>Your Order</span>
+
+  </a>
+
+  <!-- ACCOUNT -->
+  <a href="account.html" class="nav-item">
+
+    <i class="fa-solid fa-user"></i>
+
+    <span>Account</span>
+
+  </a>
+
+</nav>
+
+
+
+
+
+<!-- =========================
+JAVASCRIPT
+========================= -->
+
+<script>
+
+/* =========================
+LOAD CART
+========================= */
+
+let cart =
+JSON.parse(localStorage.getItem("c25cart")) || [];
+
+const cartContainer =
+document.getElementById("cartContainer");
+
+const emptyCart =
+document.getElementById("emptyCart");
+
+const subtotal =
+document.getElementById("subtotal");
+
+const total =
+document.getElementById("total");
+
+/* =========================
+RENDER CART
+========================= */
+
+function renderCart(){
+
+  cartContainer.innerHTML = "";
+
+  let subtotalPrice = 0;
+
+  if(cart.length === 0){
+    emptyCart.style.display = "block";
+    subtotal.innerText = "₹0";
+    total.innerText = "₹0";
+    return;
+  }
+
+  emptyCart.style.display = "none";
+
+  cart.forEach((item, index)=>{
+
+    let itemTotal = Number(item.price) * (item.qty || 1);
+    subtotalPrice += itemTotal;
+
+    cartContainer.innerHTML += `
+      <div class="cart-card">
+
+        <img src="${item.image}">
+
+        <div class="cart-info">
+
+          <h3>${item.name}</h3>
+          <p>${item.description}</p>
+
+          <!-- QTY CONTROLS -->
+          <div class="qty-box">
+
+            <button onclick="decreaseQty(${index})">-</button>
+
+            <span>${item.qty || 1}</span>
+
+            <button onclick="increaseQty(${index})">+</button>
+
+          </div>
+
+          <div class="cart-bottom">
+
+            <span>₹${itemTotal}</span>
+
+            <button class="remove-btn"
+            onclick="removeCart(${index})">
+
+              <i class="fa-solid fa-xmark"></i>
+              Cancel
+
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+    `;
+  });
+
+  subtotal.innerText = "₹" + subtotalPrice;
+  total.innerText = "₹" + (subtotalPrice + 40);
+}
+
+/* =========================
+INCREASE QTY
+========================= */
+function increaseQty(index){
+  cart[index].qty = (cart[index].qty || 1) + 1;
+
+  localStorage.setItem("c25cart", JSON.stringify(cart));
+  renderCart();
+}
+
+/* =========================
+DECREASE QTY
+========================= */
+function decreaseQty(index){
+
+  if(!cart[index].qty) cart[index].qty = 1;
+
+  if(cart[index].qty > 1){
+    cart[index].qty -= 1;
+  } else {
+    cart.splice(index, 1);
+  }
+
+  localStorage.setItem("c25cart", JSON.stringify(cart));
+  renderCart();
+}
+
+function removeCart(index){
+
+  cart.splice(index,1);
+
+  localStorage.setItem(
+    "c25cart",
+    JSON.stringify(cart)
+  );
+
+  renderCart();
+
+}
+
+
+/* =========================
+START
+========================= */
+
+renderCart();
+
+function loadUserLocation() {
+
+  const user = JSON.parse(localStorage.getItem("c25user"));
+
+  const display = document.getElementById("locationDisplay");
+
+  if (!user) {
+    display.innerText = "Please Login";
+    return;
+  }
+
+  const pincode = user.pincode || "N/A";
+  const location = user.location || "No Location";
+
+  let showPincode = true;
+
+  setInterval(() => {
+
+    if (showPincode) {
+      display.innerText = "Pincode: " + pincode;
+    } else {
+      display.innerText = location;
+    }
+
+    showPincode = !showPincode;
+
+  }, 3000);
+
+}
+
+loadUserLocation();
+
+function goToDetail() {
+  localStorage.setItem("cartBackup", JSON.stringify(cart));
+  window.location.href = "detail.html";
+}
+</script>
+<script src="back.js"></script>
+<script>
+  createBackButton();
+</script>
+
+
+</body>
+</html>

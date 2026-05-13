@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="back.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+
+
+<title>Account - C25 Cafe & Bakery</title>
+
+<link rel="stylesheet" href="account.css">
+<link rel="stylesheet" href="nav.css">
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+</head>
+<body>
+
+<div class="account-page">
+
+  <!-- TOP -->
+  <div class="top-bar">
+    <img src="logo.png" class="logo">
+    <h2>C25 Cafe & Bakery</h2>
+  </div>
+
+  <!-- TITLE -->
+  <h3 class="account-title">My Account</h3>
+
+  <!-- PROFILE -->
+  <div class="profile-section">
+
+    <div class="profile-img">
+      <i class="fa-solid fa-user"></i>
+    </div>
+
+    <h2 id="userName">Loading...</h2>
+
+    <p id="userPhone">Phone</p>
+    <p id="userEmail">Email</p>
+   <p id="userPincode">Pincode</p>
+
+<p id="userLocation">
+Current Location
+</p>
+
+  </div>
+
+  <!-- SETTINGS -->
+  <div class="box">
+
+    <div class="item">
+      <i class="fa-solid fa-gear"></i>
+      <span>Settings</span>
+    </div>
+
+    <div class="item">
+      <i class="fa-solid fa-file-lines"></i>
+      <span>Terms & Conditions</span>
+    </div>
+
+  </div>
+
+  <!-- CUSTOMER CARE -->
+  <div class="box">
+
+    <h3>Customer Care</h3>
+
+    <div class="item">
+      <i class="fa-solid fa-envelope"></i>
+      <span>info.sheikhdeveloper@gmail.com</span>
+    </div>
+
+    <div class="item">
+      <i class="fa-solid fa-phone"></i>
+      <span>+91 7051932522</span>
+    </div>
+
+  </div>
+
+<!-- LOGOUT BUTTON -->
+<button class="logout-btn" onclick="logoutUser()">
+  Logout
+</button>
+
+<!-- =========================
+BOTTOM NAVIGATION
+LINKABLE NAVBAR
+========================= -->
+
+<nav class="bottom-nav">
+
+  <!-- HOME -->
+  <a href="index.html" class="nav-item active">
+
+    <i class="fa-solid fa-house"></i>
+
+    <span>Home</span>
+
+  </a>
+
+
+
+  <!-- CART -->
+<a href="cart.html" class="nav-item cart-nav">
+
+  <div class="cart-icon-box">
+
+    <i class="fa-solid fa-cart-shopping"></i>
+
+    <span id="cartCount">0</span>
+
+  </div>
+
+  <span>Cart</span>
+
+</a>
+
+
+
+  <!-- ORDER -->
+  <a href="order.html" class="nav-item">
+
+    <i class="fa-solid fa-bag-shopping"></i>
+
+    <span>Your Order</span>
+
+  </a>
+
+
+
+  <!-- ACCOUNT -->
+  <a href="account.html" class="nav-item">
+
+    <i class="fa-solid fa-user"></i>
+
+    <span>Account</span>
+
+  </a>
+
+</nav>
+
+
+
+
+</div>
+
+<script>
+const client = window.supabase.createClient(
+  "https://sogyxzqvbquwrqlqpdaj.supabase.co",
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvZ3l4enF2YnF1d3JxbHFwZGFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1OTI0MjcsImV4cCI6MjA5NDE2ODQyN30.kubX_vDW8CiHJR7HLXs7-5RpeNI6DBlJLgt4uEhBEFE"
+);
+
+/* CHECK LOGIN */
+const savedUser = localStorage.getItem("c25user");
+
+if(!savedUser){
+  window.location.href = "login.html";
+}
+
+/* LOAD USER */
+async function loadUser(){
+
+  const user = JSON.parse(savedUser);
+
+  const { data, error } = await client
+    .from("users")
+    .select("*")
+    .eq("email", user.email)
+    .maybeSingle();
+
+  if(error || !data){
+    alert("User not found");
+    window.location.href = "login.html";
+    return;
+  }
+
+  document.getElementById("userName").innerText = data.name;
+  document.getElementById("userPhone").innerText = data.phone;
+  document.getElementById("userEmail").innerText = data.email;
+  document.getElementById("userPincode").innerText=
+"Pincode : " + data.pincode;
+
+document.getElementById("userLocation").innerText =
+"Location : " + data.location;
+  
+}
+
+loadUser();
+
+
+
+
+/* LOGOUT */
+function logoutUser(){
+
+  localStorage.removeItem("c25user");
+
+  window.location.href = "login.html";
+}
+</script>
+<script src="back.js"></script>
+<script>
+  createBackButton();
+</script>
+
+</body>
+</html>
