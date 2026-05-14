@@ -267,3 +267,45 @@ BOTTOM NAVIGATION FIXED
 #locationDisplay{
   display:inline-block;
 }
+/* =========================
+TOAST ALERT (GLOBAL)
+========================= */
+
+.toast {
+  position: fixed;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 260px;
+  max-width: 90%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 99999;
+  transition: 0.35s ease;
+  font-weight: 600;
+  color: #fff;
+  backdrop-filter: blur(8px);
+}
+
+/* GREEN TRANSPARENT */
+.toast.success {
+  background: rgba(0, 200, 83, 0.35);
+}
+
+/* RED TRANSPARENT */
+.toast.error {
+  background: rgba(229, 57, 53, 0.35);
+}
+
+.toast.show {
+  top: 20px;
+}
+
+.toast svg {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+}
