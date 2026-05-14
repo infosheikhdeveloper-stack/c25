@@ -7,7 +7,7 @@ DYNAMIC CART PAGE
 <html lang="en">
 <head>
 <link rel="stylesheet" href="back.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+
 <meta charset="UTF-8">
 <meta name="viewport"
 content="width=device-width, initial-scale=1.0">
@@ -375,7 +375,37 @@ function loadUserLocation() {
 loadUserLocation();
 
 function goToDetail() {
-  localStorage.setItem("cartBackup", JSON.stringify(cart));
+
+  const user =
+  JSON.parse(localStorage.getItem("c25user"));
+
+  /* CHECK LOGIN */
+
+  if(!user || !user.email){
+
+  showToast("Please login first", "error");
+
+  setTimeout(() => {
+    window.location.href = "login.html";
+  }, 1800);
+
+  return;
+}
+
+  /* CHECK EMPTY CART */
+
+  if(cart.length === 0){
+
+    showToast("Your cart is empty");
+
+    return;
+  }
+
+  localStorage.setItem(
+    "cartBackup",
+    JSON.stringify(cart)
+  );
+
   window.location.href = "detail.html";
 }
 </script>
@@ -383,6 +413,45 @@ function goToDetail() {
 <script>
   createBackButton();
 </script>
+
+<script>
+function showToast(message, type = "success") {
+
+  const icons = {
+    success: `
+      <svg viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" fill="white"/>
+        <path d="M10 14l-2.5-2.5L6 13l4 4 8-8-1.5-1.5z" fill="black"/>
+      </svg>
+    `,
+    error: `
+      <svg viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" fill="white"/>
+        <path d="M9 9l6 6M15 9l-6 6"
+          stroke="black" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    `
+  };
+
+  const toast = document.createElement("div");
+  toast.className = `toast ${type}`;
+
+  toast.innerHTML = `
+    ${icons[type]}
+    <span>${message}</span>
+  `;
+
+  document.body.appendChild(toast);
+
+  setTimeout(() => toast.classList.add("show"), 50);
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => toast.remove(), 300);
+  }, 2500);
+}
+</script>
+
 
 
 </body>
