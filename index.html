@@ -461,8 +461,8 @@ async function loadProducts(){
 
   data.forEach((product)=>{
 
-    const category =
-    product.category.toLowerCase();
+  const category =
+  product.category.trim().toLowerCase();
 
     if(!categories[category]){
       categories[category] = [];
