@@ -1,0 +1,270 @@
+<!DOCTYPE html>    
+<html lang="en">    
+<head>    
+    
+<meta charset="UTF-8">    
+<meta name="viewport" content="width=device-width, initial-scale=1.0">    
+    
+<title>Restaurant - C25 Cafe</title>    
+    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">    
+<link rel="stylesheet" href="back.css">    
+    
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>    
+    
+<style>    
+    
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');    
+    
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}    
+    
+body{    
+  background:#f4f6fb;    
+  padding-bottom:120px;    
+  padding-top:95px;    
+}    
+    
+.top-header{    
+  width:100%;padding:15px;    
+  display:flex;justify-content:space-between;align-items:center;    
+  position:fixed;top:0;left:0;z-index:1000;    
+  background:#f4f6fb;box-shadow:0 2px 15px rgba(0,0,0,0.05);    
+}    
+    
+.logo-side{display:flex;align-items:center;gap:12px;}    
+    
+.logo{width:55px;height:55px;border-radius:18px;object-fit:cover;}    
+    
+.logo-side h2{font-size:19px;color:#111;}    
+    
+.logo-side p{font-size:13px;color:#777;margin-top:3px;}    
+    
+.logo-side i{color:#ff6b00;}    
+    
+.menu-btn{width:45px;height:45px;border:none;border-radius:15px;background:#fff;box-shadow:0 5px 15px rgba(0,0,0,0.08);font-size:18px;}    
+    
+.banner{    
+  width:92%;margin:auto;height:220px;border-radius:28px;overflow:hidden;position:relative;    
+  box-shadow:0 10px 25px rgba(0,0,0,0.08);    
+}    
+    
+.banner img{width:100%;height:100%;object-fit:cover;}    
+    
+.overlay{position:absolute;width:100%;height:100%;top:0;left:0;background:rgba(0,0,0,0.35);}    
+    
+.banner-text{position:absolute;bottom:22px;left:20px;color:#fff;}    
+    
+.banner-text h1{font-size:30px;}    
+.banner-text p{font-size:14px;margin-top:5px;}    
+    
+.category-tag{    
+  width:92%;margin:22px auto 10px;    
+  background:linear-gradient(135deg,#ff6b00,#ff934d);    
+  color:#fff;padding:18px 20px;border-radius:24px;    
+  display:flex;justify-content:space-between;align-items:center;    
+  box-shadow:0 8px 20px rgba(255,107,0,0.25);    
+}    
+    
+.category-tag h2{font-size:24px;}    
+.category-tag span{font-size:13px;opacity:0.9;}    
+    
+.products-grid{    
+  width:92%;margin:20px auto;    
+  display:grid;grid-template-columns:1fr 1fr;gap:16px;    
+}    
+    
+.product-card{    
+  background:#fff;border-radius:24px;overflow:hidden;    
+  box-shadow:0 8px 20px rgba(0,0,0,0.06);    
+}    
+    
+.product-card img{width:100%;height:140px;object-fit:cover;}    
+    
+.product-info{padding:12px;}    
+    
+.product-info h3{font-size:17px;color:#111;}    
+    
+.product-info p{font-size:12px;color:#777;margin-top:5px;height:34px;overflow:hidden;}    
+    
+.price-row{margin-top:12px;display:flex;justify-content:space-between;align-items:center;}    
+    
+.price-row span{font-size:18px;font-weight:700;color:#111;}    
+    
+.price-row button{width:38px;height:38px;border:none;border-radius:12px;background:#ff6b00;color:#fff;font-size:18px;font-weight:700;}    
+    
+.loading{text-align:center;margin-top:40px;color:#777;}    
+    
+    /* =========================
+TOAST ALERT (GLOBAL)
+========================= */
+
+.toast {
+  position: fixed;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 260px;
+  max-width: 90%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 99999;
+  transition: 0.35s ease;
+  font-weight: 600;
+  color: #fff;
+  backdrop-filter: blur(8px);
+}
+
+/* GREEN TRANSPARENT */
+.toast.success {
+  background: rgba(0, 200, 83, 0.35);
+}
+
+/* RED TRANSPARENT */
+.toast.error {
+  background: rgba(229, 57, 53, 0.35);
+}
+
+.toast.show {
+  top: 20px;
+}
+
+.toast svg {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+}
+    
+    
+</style>    
+    
+</head>    
+<body>    
+    
+<header class="top-header">    
+  <div class="logo-side">    
+    <img src="logo.png" class="logo">    
+    <div>    
+      <h2>C25 Cafe & Restaurant</h2>    
+      <p><i class="fa-solid fa-location-dot"></i> <span id="locationDisplay">Loading...</span></p>    
+    </div>    
+  </div>    
+</header>    
+    
+<section class="banner">    
+  <img src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?q=80&w=1200&auto=format&fit=crop">    
+  <div class="overlay"></div>    
+  <div class="banner-text">    
+    <h1>Restaurant Food</h1>    
+    <p>Fresh Meals & Delicious Dishes</p>    
+  </div>    
+</section>    
+    
+<div class="category-tag">    
+  <div>    
+    <h2>Restaurant</h2>    
+    <span>Fresh cooked meals</span>    
+  </div>    
+  <i class="fa-solid fa-utensils" style="font-size:30px"></i>    
+</div>    
+    
+<div id="products" class="products-grid"></div>    
+<div id="loading" class="loading">Loading Restaurant Products...</div>    
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+
+<script>    
+async function loadProducts(){    
+    
+  const container = document.getElementById("products");    
+  const loading = document.getElementById("loading");    
+    
+  const { data, error } = await supabaseClient    
+    .from("products")    
+    .select("*")    
+    .ilike("category","%restaurant%");    
+    
+  loading.style.display = "none";    
+    
+  if(error){    
+    container.innerHTML = "Error loading products";    
+    return;    
+  }    
+    
+  data.forEach(item => {    
+    container.innerHTML += `    
+      <div class="product-card" onclick='openDetail(${JSON.stringify(item)})'>    
+        <img src="${item.image}">    
+        <div class="product-info">    
+          <h3>${item.title}</h3>    
+          <p>${item.description}</p>    
+          <div class="price-row">    
+            <span>₹${item.price}</span>    
+            <button onclick='event.stopPropagation(); addToCart("${item.title}","${item.description}","${item.price}","${item.image}")'>+</button>    
+          </div>    
+        </div>    
+      </div>    
+    `;    
+  });    
+}    
+    
+function openDetail(item){    
+  localStorage.setItem("selectedProduct", JSON.stringify(item));    
+  window.location.href = "detailrestaurant.html";    
+}    
+    
+function addToCart(name,description,price,image){    
+  let cart = JSON.parse(localStorage.getItem("c25cart")) || [];    
+  cart.push({name,description,price,image});    
+  localStorage.setItem("c25cart", JSON.stringify(cart));    
+  showToast("Added to cart");    
+}    
+    
+loadProducts();    
+    
+</script>    
+    
+    <script>
+function showToast(message, type = "success") {
+
+  const icons = {
+    success: `
+      <svg viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" fill="white"/>
+        <path d="M10 14l-2.5-2.5L6 13l4 4 8-8-1.5-1.5z" fill="black"/>
+      </svg>
+    `,
+    error: `
+      <svg viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" fill="white"/>
+        <path d="M9 9l6 6M15 9l-6 6"
+          stroke="black" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    `
+  };
+
+  const toast = document.createElement("div");
+  toast.className = `toast ${type}`;
+
+  toast.innerHTML = `
+    ${icons[type]}
+    <span>${message}</span>
+  `;
+
+  document.body.appendChild(toast);
+
+  setTimeout(() => toast.classList.add("show"), 50);
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => toast.remove(), 300);
+  }, 2500);
+}
+</script>
+    
+</body>    
+</html>
