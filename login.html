@@ -101,25 +101,17 @@ let userLng = "";
   
 function getLocation(){
 
-if(!navigator.geolocation){
-showToast("Geolocation not supported","error");
-return;
-}
-
 showToast("Requesting location...","success");
 
 navigator.geolocation.getCurrentPosition(
-async (pos)=>{
+(pos)=>{
 
 userLat = pos.coords.latitude;
 userLng = pos.coords.longitude;
 
-try {
-const res = await fetch(
-`https://nominatim.openstreetmap.org/reverse?format=json&lat=${userLat}&lon=${userLng}`
-);
-
-const data = await res.json();
+fetch(`https://nominatim.openstreetmap.org/reverse?format=json&lat=${userLat}&lon=${userLng}`)
+.then(res=>res.json())
+.then(data=>{
 
 userLocation =
 data.address.city ||
@@ -132,34 +124,13 @@ document.getElementById("locationText").innerText = userLocation;
 
 showToast("Location detected","success");
 
-} catch(e){
-showToast("Reverse geocode failed","error");
-}
+});
 
 },
 (error)=>{
-
-switch(error.code){
-case 1:
-showToast("Permission denied","error");
-break;
-case 2:
-showToast("Location unavailable","error");
-break;
-case 3:
-showToast("Timeout","error");
-break;
-default:
-showToast("Unknown error","error");
-}
-},
-{
-enableHighAccuracy: true,
-timeout: 10000,
-maximumAge: 0
+showToast("Enable location permission in browser settings","error");
 }
 );
-
 }
   
 /* ================= SIGNUP (AUTH + TABLE) ================= */  
@@ -179,20 +150,25 @@ return;
   
 /* 1️⃣ AUTH SIGNUP (REAL SUPABASE USER) */  
   
-const { data: authData, error: authError } =  
-await client.auth.signUp({  
-  email,  
-  password  
-});  
-  
-if(authError){  
-showToast(authError.message,"error");  
-return;  
-}  
-  
-/* 2️⃣ SAVE PROFILE IN TABLE */  
-  
-const userId = authData.user.id;  
+const { data: authData, error: authError } =
+await client.auth.signUp({
+  email,
+  password
+});
+
+if(authError){
+  showToast(authError.message,"error");
+  return;
+}
+
+/* SAFE USER ID */
+
+const userId = authData?.user?.id;
+
+if(!userId){
+  showToast("Please verify your email first","error");
+  return;
+}
   
 const { error } = await client.from("users").insert([{  
   id: userId,  
