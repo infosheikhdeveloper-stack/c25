@@ -1,69 +1,145 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="stylesheet" href="back.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
-
 <title>Payment - C25 Cafe</title>
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<link rel="stylesheet" href="back.css">
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <style>
 
-/* BASE */
+/* =========================
+BASE
+========================= */
+
 *{
   margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family:sans-serif;
+  font-family:'Poppins',sans-serif;
 }
 
 body{
-  background:#f5f5f5;
-  padding:15px;
+  background:#f4f6fb;
   padding-bottom:120px;
+  padding-top:105px;
 }
 
-/* HEADER */
-.header{
-  background:#111;
-  color:#fff;
+/* =========================
+TOP HEADER
+========================= */
+
+.top-header{
+  width:100%;
   padding:15px;
-  border-radius:14px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  position:fixed;
+  top:0;
+  left:0;
+
+  z-index:1000;
+
+  background:#f4f6fb;
+
+  backdrop-filter:blur(10px);
+
+  box-shadow:0 2px 15px rgba(0,0,0,0.05);
+}
+
+.logo-side{
   display:flex;
   align-items:center;
   gap:12px;
 }
 
-.header img{
+.logo{
+  width:55px;
+  height:55px;
+  border-radius:18px;
+  object-fit:cover;
+}
+
+.logo-side h2{
+  font-size:20px;
+  color:#111;
+}
+
+.logo-side p{
+  font-size:13px;
+  color:#777;
+  margin-top:3px;
+}
+
+.logo-side i{
+  color:#25D366;
+}
+
+.menu-btn{
   width:45px;
   height:45px;
-  border-radius:50%;
-}
-
-/* BOX */
-.box{
+  border:none;
+  border-radius:15px;
   background:#fff;
-  padding:15px;
-  border-radius:16px;
-  margin-top:15px;
-  box-shadow:0 2px 10px rgba(0,0,0,.05);
+  box-shadow:0 5px 15px rgba(0,0,0,0.08);
+  font-size:18px;
 }
 
-/* PAYMENT METHOD */
+/* =========================
+BOX
+========================= */
+
+.box{
+  width:92%;
+  margin:18px auto;
+  background:#fff;
+  padding:18px;
+  border-radius:24px;
+  box-shadow:0 8px 20px rgba(0,0,0,.05);
+}
+
+.box h3{
+  font-size:20px;
+  margin-bottom:15px;
+  color:#111;
+}
+
+/* =========================
+PAYMENT METHOD
+========================= */
+
 .method{
-  padding:12px;
-  border:1px solid #ddd;
-  border-radius:12px;
-  margin-top:10px;
+  padding:14px;
+  border:1px solid #eee;
+  border-radius:18px;
+  margin-top:12px;
+
   display:flex;
   justify-content:space-between;
   align-items:center;
+
+  background:#fafafa;
+}
+
+.method span{
+  font-size:15px;
+  font-weight:500;
+}
+
+.method i{
+  color:#25D366;
+  margin-right:8px;
 }
 
 .method input{
@@ -71,262 +147,480 @@ body{
 }
 
 .disabled{
-  opacity:0.4;
-}
-
-/* INVOICE */
-.invoice p{
-  font-size:14px;
-  margin-top:5px;
-}
-
-hr{
-  margin:10px 0;
-}
-
-/* BUTTON */
-.btn{
-  width:100%;
-  padding:14px;
-  border:none;
-  border-radius:12px;
-  background:#25D366;
-  color:#fff;
-  font-size:16px;
-  font-weight:700;
-  margin-top:15px;
+  opacity:0.45;
 }
 
 /* =========================
-TOAST ALERT (GLOBAL)
+INVOICE
 ========================= */
 
-.toast {
-  position: fixed;
-  top: -100px;
-  left: 50%;
-  transform: translateX(-50%);
-  min-width: 260px;
-  max-width: 90%;
-  padding: 14px 16px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  z-index: 99999;
-  transition: 0.35s ease;
-  font-weight: 600;
-  color: #fff;
-  backdrop-filter: blur(8px);
+.invoice p{
+  font-size:14px;
+  margin-top:8px;
+  color:#555;
 }
 
-/* GREEN TRANSPARENT */
-.toast.success {
-  background: rgba(0, 200, 83, 0.35);
+.invoice b{
+  color:#111;
 }
 
-/* RED TRANSPARENT */
-.toast.error {
-  background: rgba(229, 57, 53, 0.35);
+hr{
+  margin:16px 0;
+  border:none;
+  border-top:1px solid #eee;
 }
 
-.toast.show {
-  top: 20px;
+#items p{
+  padding:10px 0;
+  border-bottom:1px dashed #eee;
 }
 
-.toast svg {
-  width: 26px;
-  height: 26px;
-  flex-shrink: 0;
+/* =========================
+TOTAL
+========================= */
+
+#total{
+  color:#ff6b00;
+  margin-top:10px;
+  font-size:22px;
+}
+
+/* =========================
+BUTTON
+========================= */
+
+.btn{
+  width:92%;
+  margin:20px auto;
+  display:block;
+
+  padding:16px;
+  border:none;
+  border-radius:18px;
+
+  background:linear-gradient(135deg,#25D366,#1ebe5d);
+
+  color:#fff;
+  font-size:17px;
+  font-weight:700;
+
+  box-shadow:0 8px 18px rgba(37,211,102,0.25);
+
+  cursor:pointer;
+}
+
+/* =========================
+TOAST
+========================= */
+
+.toast{
+  position:fixed;
+  top:-100px;
+  left:50%;
+  transform:translateX(-50%);
+  min-width:260px;
+  max-width:90%;
+  padding:14px 16px;
+  border-radius:14px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  z-index:99999;
+  transition:.35s ease;
+  font-weight:600;
+  color:#fff;
+  backdrop-filter:blur(8px);
+}
+
+.toast.success{
+  background:rgba(0,200,83,.35);
+}
+
+.toast.error{
+  background:rgba(229,57,53,.35);
+}
+
+.toast.show{
+  top:20px;
+}
+
+.toast svg{
+  width:26px;
+  height:26px;
+  flex-shrink:0;
 }
 
 </style>
+
 </head>
 
 <body>
 
-<!-- HEADER -->
-<div class="header">
-  <img src="logo.png">
-  <div>
-    <h3>C25 Cafe & Bakery</h3>
-    <small>Secure Payment</small>
-  </div>
-</div>
+<!-- =========================
+HEADER
+========================= -->
 
-<!-- PAYMENT -->
+<header class="top-header">
+
+  <div class="logo-side">
+
+    <img src="logo.png" class="logo">
+
+    <div>
+
+      <h2>C25 Cafe & Bakery</h2>
+
+      <p>
+        <i class="fa-solid fa-shield-heart"></i>
+        Secure Payment
+      </p>
+
+    </div>
+
+  </div>
+
+
+
+</header>
+
+<!-- =========================
+PAYMENT METHODS
+========================= -->
+
 <div class="box">
 
-<h3>Payment Method</h3>
+  <h3>Payment Method</h3>
 
-<label class="method">
-  <span><i class="fa-brands fa-whatsapp"></i> WhatsApp Payment</span>
-  <input type="radio" name="pay" value="whatsapp" checked>
-</label>
+  <label class="method">
 
-<label class="method">
-  <span>Cash on Delivery</span>
-  <input type="radio" name="pay" value="cod">
-</label>
+    <span>
+      <i class="fa-brands fa-whatsapp"></i>
+      WhatsApp Payment
+    </span>
 
-<div class="method disabled">
-  PhonePe
+    <input
+    type="radio"
+    name="pay"
+    value="WhatsApp Payment"
+    checked>
+
+  </label>
+
+  <label class="method">
+
+    <span>
+      <i class="fa-solid fa-money-bill-wave"></i>
+      Cash on Delivery
+    </span>
+
+    <input
+    type="radio"
+    name="pay"
+    value="Cash on Delivery">
+
+  </label>
+
+  <div class="method disabled">
+    <span>PhonePe (Coming Soon)</span>
+  </div>
+
+  <div class="method disabled">
+    <span>Google Pay (Coming Soon)</span>
+  </div>
+
+  <div class="method disabled">
+    <span>Debit Card (Coming Soon)</span>
+  </div>
+
 </div>
 
-<div class="method disabled">
-  Google Pay
-</div>
+<!-- =========================
+INVOICE
+========================= -->
 
-<div class="method disabled">
-  Debit Card
-</div>
-
-</div>
-
-<!-- INVOICE -->
 <div class="box invoice">
 
-<h3>Invoice</h3>
+  <h3>Invoice</h3>
 
-<p><b>C25 Cafe & Bakery</b></p>
-<p>📞 +91 7051932522</p>
+  <p><b>C25 Cafe & Bakery</b></p>
+  <p>📞 +91 7051932522</p>
 
-<hr>
+  <hr>
 
-<div id="userInfo"></div>
-<div id="items"></div>
+  <div id="userInfo"></div>
 
-<hr>
+  <hr>
 
-<h3 id="total"></h3>
+  <div id="items"></div>
+
+  <hr>
+
+  <h3 id="total"></h3>
 
 </div>
 
-<!-- BUTTON -->
+<!-- =========================
+BUTTON
+========================= -->
+
 <button class="btn" onclick="confirmOrder()">
-Confirm Order
+
+  <i class="fa-brands fa-whatsapp"></i>
+  Confirm Order
+
 </button>
 
 <script>
 
-/* SUPABASE */
+/* =========================
+SUPABASE
+========================= */
+
 const client = supabase.createClient(
   "https://sogyxzqvbquwrqlqpdaj.supabase.co",
+
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvZ3l4enF2YnF1d3JxbHFwZGFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1OTI0MjcsImV4cCI6MjA5NDE2ODQyN30.kubX_vDW8CiHJR7HLXs7-5RpeNI6DBlJLgt4uEhBEFE"
 );
 
-/* DATA */
-let cart = JSON.parse(localStorage.getItem("cartBackup")) || [];
-let user = JSON.parse(localStorage.getItem("c25user")) || {};
+/* =========================
+DATA
+========================= */
+
+let cart =
+JSON.parse(localStorage.getItem("cartBackup")) || [];
+
+let user =
+JSON.parse(localStorage.getItem("c25user")) || {};
 
 let subtotal = 0;
 
-/* USER */
+/* =========================
+USER INFO
+========================= */
+
 document.getElementById("userInfo").innerHTML = `
-<p><b>Name:</b> ${user.name}</p>
-<p><b>Phone:</b> ${user.phone}</p>
-<p><b>Email:</b> ${user.email}</p>
-<p><b>Location:</b> ${user.location}</p>
-<p><b>Pincode:</b> ${user.pincode}</p>
+
+<p><b>Name:</b> ${user.name || "N/A"}</p>
+
+<p><b>Phone:</b> ${user.phone || "N/A"}</p>
+
+<p><b>Email:</b> ${user.email || "N/A"}</p>
+
+<p><b>Location:</b> ${user.location || "N/A"}</p>
+
+<p><b>Pincode:</b> ${user.pincode || "N/A"}</p>
+
 `;
 
-/* ITEMS */
-cart.forEach(i => {
+/* =========================
+ITEMS
+========================= */
 
-  let qty = i.qty || 1;
-  let price = Number(i.price);
-  let totalItem = price * qty;
+cart.forEach(item => {
 
-  subtotal += totalItem;
+  let qty = item.qty || 1;
+
+  let price = Number(item.price);
+
+  let itemTotal = qty * price;
+
+  subtotal += itemTotal;
 
   document.getElementById("items").innerHTML += `
-    <p>
-      ${i.name} × ${qty} = ₹${totalItem}
-    </p>
+
+  <p>
+    ${item.name} × ${qty}
+    = ₹${itemTotal}
+  </p>
+
   `;
+
 });
 
-let total = subtotal + 40;
+/* =========================
+TOTAL
+========================= */
+
+let deliveryCharge = 40;
+
+let total = subtotal + deliveryCharge;
 
 document.getElementById("total").innerText =
 "Total: ₹" + total;
 
+/* =========================
+CONFIRM ORDER
+========================= */
 
-
-/* CONFIRM ORDER */
 async function confirmOrder(){
 
-  const method = document.querySelector("input[name='pay']:checked").value;
+  if(cart.length === 0){
+
+    showToast("Cart is empty","error");
+
+    return;
+  }
+
+  const paymentMethod =
+  document.querySelector(
+    "input[name='pay']:checked"
+  ).value;
 
   const order = {
+
     name: user.name,
     phone: user.phone,
     email: user.email,
     location: user.location,
     pincode: user.pincode,
+
     items: cart,
-    subtotal,
-    delivery: 40,
-    total,
-    payment_method: method
+
+    subtotal: subtotal,
+
+  delivery: deliveryCharge,
+
+    total: total,
+
+    payment_method: paymentMethod,
+
+    created_at: new Date()
+
   };
 
-  /* SAVE TO SUPABASE */
+  /* SAVE ORDER */
+
   const { error } = await client
-    .from("orders")
-    .insert([order]);
+  .from("orders")
+  .insert([order]);
 
   if(error){
-    alert(error.message);
+
+    showToast(error.message,"error");
+
     return;
   }
 
-  /* WHATSAPP MESSAGE */
-  let msg = "🧾 ORDER RECEIPT\n\n";
+  /* =========================
+  WHATSAPP MESSAGE
+  ========================= */
 
-  cart.forEach(i=>{
-    msg += `${i.name} - ₹${i.price}\n`;
+  let msg =
+`🍽️ *NEW ORDER REQUEST*
+
+Hello C25 Cafe & Bakery,
+A new customer order has been placed.
+
+━━━━━━━━━━━━━━
+👤 *CUSTOMER DETAILS*
+━━━━━━━━━━━━━━
+
+🧑 Name: ${user.name}
+📞 Phone: ${user.phone}
+📧 Email: ${user.email}
+📍 Location: ${user.location}
+📮 Pincode: ${user.pincode}
+
+━━━━━━━━━━━━━━
+🛒 *ORDER ITEMS*
+━━━━━━━━━━━━━━
+
+`;
+
+  cart.forEach(item => {
+
+    let qty = item.qty || 1;
+
+    let price = Number(item.price);
+
+    let itemTotal = qty * price;
+
+    msg +=
+`🍔 ${item.name}
+Qty: ${qty}
+Price: ₹${itemTotal}
+
+`;
+
   });
 
-  msg += `\nTotal: ₹${total}`;
-  msg += `\nName: ${user.name}`;
-  msg += `\nPhone: ${user.phone}`;
-  msg += `\nLocation: ${user.location}`;
-  msg += `\nPincode: ${user.pincode}`;
+  msg +=
+`━━━━━━━━━━━━━━
+💵 *PAYMENT DETAILS*
+━━━━━━━━━━━━━━
+
+Subtotal: ₹${subtotal}
+Delivery: ₹${deliveryCharge}
+Total Amount: ₹${total}
+
+💳 Payment Method:
+${paymentMethod}
+
+━━━━━━━━━━━━━━
+✅ Please check and confirm this order.
+━━━━━━━━━━━━━━`;
+
+  /* OPEN WHATSAPP */
 
   window.open(
-    "https://wa.me/917051932522?text=" + encodeURIComponent(msg),
+
+    "https://wa.me/917051932522?text=" +
+
+    encodeURIComponent(msg),
+
     "_blank"
+
   );
 
-  showToast("Order Placed Successfully ");
+  showToast(
+    "Order Request Sent Successfully"
+  );
+
+  /* CLEAR CART */
 
   localStorage.removeItem("c25cart");
+  localStorage.removeItem("cartBackup");
+
+  setTimeout(()=>{
+
+    window.location.href = "index.html";
+
+  },1500);
+
 }
 
-</script>
+/* =========================
+TOAST
+========================= */
 
-<script>
-function showToast(message, type = "success") {
+function showToast(message,type="success") {
 
   const icons = {
+
     success: `
       <svg viewBox="0 0 24 24">
         <circle cx="12" cy="12" r="10" fill="white"/>
-        <path d="M10 14l-2.5-2.5L6 13l4 4 8-8-1.5-1.5z" fill="black"/>
+        <path d="M10 14l-2.5-2.5L6 13l4 4 8-8-1.5-1.5z"
+        fill="black"/>
       </svg>
     `,
+
     error: `
       <svg viewBox="0 0 24 24">
         <circle cx="12" cy="12" r="10" fill="white"/>
         <path d="M9 9l6 6M15 9l-6 6"
-          stroke="black" stroke-width="2" stroke-linecap="round"/>
+        stroke="black"
+        stroke-width="2"
+        stroke-linecap="round"/>
       </svg>
     `
   };
 
-  const toast = document.createElement("div");
-  toast.className = `toast ${type}`;
+  const toast =
+  document.createElement("div");
+
+  toast.className =
+  `toast ${type}`;
 
   toast.innerHTML = `
     ${icons[type]}
@@ -335,18 +629,29 @@ function showToast(message, type = "success") {
 
   document.body.appendChild(toast);
 
-  setTimeout(() => toast.classList.add("show"), 50);
+  setTimeout(()=>{
+    toast.classList.add("show");
+  },50);
 
-  setTimeout(() => {
+  setTimeout(()=>{
+
     toast.classList.remove("show");
-    setTimeout(() => toast.remove(), 300);
-  }, 2500);
+
+    setTimeout(()=>{
+      toast.remove();
+    },300);
+
+  },2500);
+
 }
+
 </script>
 
 <script src="back.js"></script>
+
 <script>
-  createBackButton();
+createBackButton();
 </script>
+
 </body>
 </html>
