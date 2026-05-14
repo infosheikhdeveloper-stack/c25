@@ -541,24 +541,19 @@ data-name="${item.title}">
 
 
     section.innerHTML = `
+<div class="section-title">
+  <h2>${category}</h2>
 
-    <div class="section-title">
+  <a href="${category}.html" style="color:#ff6b00; font-weight:600; text-decoration:none;">
+    View All
+  </a>
 
-      <h2>${category}</h2>
+</div>
 
-      <span>See All</span>
-
-    </div>
-
-
-
-    <div class="product-slider">
-
-      ${cards}
-
-    </div>
-
-    `;
+<div class="product-slider">
+  ${cards}
+</div>
+`;
 
 
 
