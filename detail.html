@@ -12,7 +12,14 @@
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+
 <style>
+
+/* =========================
+GOOGLE FONT
+========================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 
 /* =========================
 BASE
@@ -22,74 +29,159 @@ BASE
   margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family:sans-serif;
+  font-family:'Poppins',sans-serif;
 }
 
 body{
-  background:#f5f5f5;
+  background:#f4f6fb;
   padding:20px;
   padding-bottom:120px;
+
+  /* FIXED HEADER SPACE */
+  padding-top:115px;
+
+  overflow-x:hidden;
 }
 
 /* =========================
-HEADER
+TOP HEADER
 ========================= */
 
-.header{
-  background:#fff;
-  padding:15px;
-  border-radius:16px;
+.top-header{
+  width:100%;
+  padding:15px 18px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  position:fixed;
+  top:0;
+  left:0;
+
+  z-index:1000;
+
+  background:#f4f6fb;
+
+  backdrop-filter:blur(12px);
+
+  box-shadow:0 2px 15px rgba(0,0,0,0.05);
+}
+
+.logo-side{
   display:flex;
   align-items:center;
   gap:12px;
-  box-shadow:0 2px 10px rgba(0,0,0,.05);
 }
 
-.header img{
-  width:45px;
-  height:45px;
-  border-radius:12px;
+.logo{
+  width:55px;
+  height:55px;
+  border-radius:18px;
+  object-fit:cover;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
+}
+
+.logo-side h2{
+  font-size:20px;
+  color:#111;
+  font-weight:700;
+}
+
+.logo-side p{
+  font-size:13px;
+  color:#777;
+  margin-top:2px;
+
+  display:flex;
+  align-items:center;
+  gap:5px;
+}
+
+.logo-side i{
+  color:#ff6b00;
+}
+
+.menu-btn{
+  width:46px;
+  height:46px;
+
+  border:none;
+  border-radius:16px;
+
+  background:#fff;
+
+  box-shadow:0 5px 18px rgba(0,0,0,0.08);
+
+  font-size:18px;
+  color:#111;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
 
 /* =========================
-ITEMS
+ITEMS SECTION
 ========================= */
 
 .items{
-  margin-top:20px;
   display:flex;
   flex-direction:column;
-  gap:12px;
+  gap:14px;
 }
+
+/* =========================
+PRODUCT CARD
+========================= */
 
 .item{
   background:#fff;
-  padding:12px;
-  border-radius:14px;
+  padding:14px;
+  border-radius:22px;
+
   display:flex;
-  gap:12px;
+  gap:14px;
   align-items:center;
-  box-shadow:0 2px 10px rgba(0,0,0,.05);
+
+  box-shadow:0 6px 20px rgba(0,0,0,0.05);
+
+  transition:0.2s;
+}
+
+.item:active{
+  transform:scale(0.98);
 }
 
 .item img{
-  width:70px;
-  height:70px;
-  border-radius:12px;
+  width:85px;
+  height:85px;
+
+  border-radius:18px;
   object-fit:cover;
+
+  flex-shrink:0;
 }
 
 .item h3{
-  font-size:16px;
+  font-size:17px;
+  color:#111;
+  margin-bottom:4px;
 }
 
 .item p{
   font-size:13px;
-  color:#666;
+  color:#777;
+  line-height:1.4;
 }
 
 .item span{
+  display:inline-block;
+  margin-top:8px;
+
   font-weight:700;
+  font-size:17px;
+
   color:#ff6b00;
 }
 
@@ -98,25 +190,48 @@ USER BOX
 ========================= */
 
 .user-box{
-  margin-top:20px;
+  margin-top:24px;
+
   background:#fff;
-  padding:15px;
-  border-radius:16px;
-  box-shadow:0 2px 10px rgba(0,0,0,.05);
+
+  padding:18px;
+
+  border-radius:24px;
+
+  box-shadow:0 6px 20px rgba(0,0,0,0.05);
 }
 
 .user-box h3{
-  margin-bottom:10px;
+  font-size:20px;
+  color:#111;
+  margin-bottom:14px;
 }
 
 .user-box input,
 .user-box select{
   width:100%;
-  padding:12px;
-  margin-top:10px;
-  border-radius:10px;
-  border:1px solid #ddd;
+
+  padding:14px;
+
+  margin-top:12px;
+
+  border-radius:16px;
+
+  border:1px solid #e5e5e5;
+
   outline:none;
+
+  font-size:15px;
+
+  background:#fafafa;
+
+  transition:0.2s;
+}
+
+.user-box input:focus,
+.user-box select:focus{
+  border-color:#ff6b00;
+  background:#fff;
 }
 
 /* =========================
@@ -125,53 +240,105 @@ BUTTONS
 
 .btn{
   width:100%;
-  padding:14px;
+
+  padding:15px;
+
   border:none;
-  border-radius:12px;
+
+  border-radius:18px;
+
   font-size:16px;
   font-weight:700;
-  margin-top:15px;
+
+  margin-top:16px;
+
   cursor:pointer;
+
+  transition:0.2s;
 }
+
+.btn:active{
+  transform:scale(0.98);
+}
+
+/* SAVE BUTTON */
 
 .save-btn{
   background:#111;
   color:#fff;
+
+  box-shadow:0 6px 18px rgba(0,0,0,0.12);
 }
 
+/* PAYMENT BUTTON */
+
 .pay-btn{
-  background:#ff6b00;
+  background:linear-gradient(135deg,#ff6b00,#ff934d);
   color:#fff;
+
+  box-shadow:0 8px 20px rgba(255,107,0,0.25);
 }
 
 /* =========================
-FOOTER FIX
+BOTTOM FIXED FOOTER
 ========================= */
 
 .footer{
   position:fixed;
+
   bottom:0;
   left:0;
+
   width:100%;
-  background:#fff;
-  padding:15px;
-  box-shadow:0 -2px 10px rgba(0,0,0,.1);
+
+  background:#ffffffd9;
+
+  backdrop-filter:blur(10px);
+
+  padding:16px;
+
+  box-shadow:0 -4px 18px rgba(0,0,0,0.08);
+
+  border-top-left-radius:22px;
+  border-top-right-radius:22px;
+
+  z-index:999;
 }
 
 </style>
 
+
 </head>
 <body>
 
-<!-- ================= HEADER ================= -->
+<!-- =========================
+TOP HEADER
+========================= -->
 
-<div class="header">
-  <img src="logo.png">
-  <div>
-    <h3>C25 Cafe & Bakery</h3>
-    <p>Order Details</p>
+<header class="top-header">
+
+  <div class="logo-side">
+
+    <img src="logo.png" class="logo">
+
+    <div>
+
+      <h2>C25 Cafe & Bakery</h2>
+
+      <p>
+        <i class="fa-solid fa-bag-shopping"></i>
+        Order Details
+      </p>
+
+    </div>
+
   </div>
-</div>
+
+  <button class="menu-btn">
+    <i class="fa-solid fa-receipt"></i>
+  </button>
+
+</header>
 
 <!-- ================= ITEMS ================= -->
 
