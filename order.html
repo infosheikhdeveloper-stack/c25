@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link rel="stylesheet" href="back.css">
+<link rel="stylesheet" href="nav.css">
 
 
 <title>My Orders - C25 Cafe</title>
@@ -260,6 +261,65 @@ EMPTY ORDER DESIGN
 
 <div id="loader" class="loader">Loading orders...</div>
 <div id="orders"></div>
+
+<!-- =========================
+BOTTOM NAVIGATION
+LINKABLE NAVBAR
+========================= -->
+
+<nav class="bottom-nav">
+
+  <!-- HOME -->
+  <a href="index.html" class="nav-item active">
+
+    <i class="fa-solid fa-house"></i>
+
+    <span>Home</span>
+
+  </a>
+
+
+
+  <!-- CART -->
+<a href="cart.html" class="nav-item cart-nav">
+
+  <div class="cart-icon-box">
+
+    <i class="fa-solid fa-cart-shopping"></i>
+
+    <span id="cartCount">0</span>
+
+  </div>
+
+  <span>Cart</span>
+
+</a>
+
+
+
+  <!-- ORDER -->
+  <a href="order.html" class="nav-item">
+
+    <i class="fa-solid fa-bag-shopping"></i>
+
+    <span>Your Order</span>
+
+  </a>
+
+
+
+  <!-- ACCOUNT -->
+  <a href="account.html" class="nav-item">
+
+    <i class="fa-solid fa-user"></i>
+
+    <span>Account</span>
+
+  </a>
+
+</nav>
+
+
 
 <script>
 
