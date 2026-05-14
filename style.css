@@ -524,3 +524,87 @@ TOAST ALERT (GLOBAL)
   height: 26px;
   flex-shrink: 0;
 }
+
+
+/*install popup*/
+
+.install-popup{
+  position:fixed;
+  top:-200px;
+  left:50%;
+  transform:translateX(-50%);
+  width:92%;
+  max-width:360px;
+  background:rgba(20,20,20,0.95);
+  color:#fff;
+  border-radius:18px;
+  padding:15px;
+  box-shadow:0 15px 40px rgba(0,0,0,0.35);
+  z-index:999999;
+  transition:0.4s ease;
+  backdrop-filter: blur(10px);
+}
+
+/* SLIDE DOWN EFFECT */
+.install-popup.show{
+  top:20px;
+}
+
+/* HEADER */
+.install-header{
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.install-header img{
+  width:50px;
+  height:50px;
+  border-radius:14px;
+  object-fit:cover;
+}
+
+.install-header h3{
+  margin:0;
+  font-size:18px;
+}
+
+.install-header p{
+  margin:0;
+  font-size:12px;
+  color:#bbb;
+}
+
+/* BODY */
+.install-body{
+  margin-top:10px;
+  font-size:13px;
+  color:#ddd;
+}
+
+/* BUTTONS */
+.install-actions{
+  display:flex;
+  justify-content:space-between;
+  margin-top:15px;
+}
+
+.install-actions button{
+  flex:1;
+  padding:10px;
+  border:none;
+  border-radius:12px;
+  font-weight:700;
+  cursor:pointer;
+}
+
+#installBtn{
+  background:#ff6b00;
+  color:#fff;
+  margin-right:8px;
+}
+
+#closeBtn{
+  background:#333;
+  color:#fff;
+}
