@@ -12,7 +12,7 @@ SUPABASE DYNAMIC FOOD APP
 content="width=device-width, initial-scale=1.0">
 
 <title>C25 Apple Cafe</title>
-
+<link rel="manifest" href="manifest.json">
 <!-- FONT AWESOME -->
 <link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -878,7 +878,67 @@ function showToast(message, type = "success") {
   }, 2500);
 }
 </script>
+<script>
+let deferredPrompt;
 
+window.addEventListener("beforeinstallprompt", (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+
+  setTimeout(() => {
+    showInstallPopup();
+  }, 7000);
+});
+
+function showInstallPopup() {
+
+  const popup = document.createElement("div");
+
+  popup.innerHTML = `
+    <div class="install-popup">
+      
+      <div class="install-header">
+        <img src="logo.png" alt="App Logo">
+        <div>
+          <h3>C25 Cafe</h3>
+          <p>Premium Food Experience</p>
+        </div>
+      </div>
+
+      <div class="install-body">
+        <p>Install our app for faster ordering & better experience 🚀</p>
+      </div>
+
+      <div class="install-actions">
+        <button id="installBtn">Install</button>
+        <button id="closeBtn">Later</button>
+      </div>
+
+    </div>
+  `;
+
+  document.body.appendChild(popup);
+
+  // OPEN ANIMATION
+  setTimeout(() => {
+    document.querySelector(".install-popup").classList.add("show");
+  }, 50);
+
+  document.getElementById("installBtn").onclick = async () => {
+    popup.remove();
+
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      await deferredPrompt.userChoice;
+      deferredPrompt = null;
+    }
+  };
+
+  document.getElementById("closeBtn").onclick = () => {
+    popup.remove();
+  };
+}
+</script>
 
 
 </body>
