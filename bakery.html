@@ -299,6 +299,49 @@ LOCATION ANIMATION
   }
 
 }
+/* =========================
+TOAST ALERT (GLOBAL)
+========================= */
+
+.toast {
+  position: fixed;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  min-width: 260px;
+  max-width: 90%;
+  padding: 14px 16px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  z-index: 99999;
+  transition: 0.35s ease;
+  font-weight: 600;
+  color: #fff;
+  backdrop-filter: blur(8px);
+}
+
+/* GREEN TRANSPARENT */
+.toast.success {
+  background: rgba(0, 200, 83, 0.35);
+}
+
+/* RED TRANSPARENT */
+.toast.error {
+  background: rgba(229, 57, 53, 0.35);
+}
+
+.toast.show {
+  top: 20px;
+}
+
+.toast svg {
+  width: 26px;
+  height: 26px;
+  flex-shrink: 0;
+}
+
 
 </style>
 
@@ -392,20 +435,12 @@ class="loading">
 Loading Bakery Products...
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="supabase.js"></script>
+
 <script>
 
-/* =========================
-SUPABASE
-========================= */
 
-const supabaseClient =
-supabase.createClient(
-
-"https://sogyxzqvbquwrqlqpdaj.supabase.co",
-
-"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvZ3l4enF2YnF1d3JxbHFwZGFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1OTI0MjcsImV4cCI6MjA5NDE2ODQyN30.kubX_vDW8CiHJR7HLXs7-5RpeNI6DBlJLgt4uEhBEFE"
-
-);
 
 /* =========================
 LOAD LOCATION
@@ -553,7 +588,7 @@ image
     JSON.stringify(cart)
   );
 
-  alert("Added to cart");
+  showToast("Added to cart");
 
 }
 
@@ -562,5 +597,43 @@ image
 <script>
   createBackButton();
 </script>
+<script>
+function showToast(message, type = "success") {
+
+  const icons = {
+    success: `
+      <svg viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" fill="white"/>
+        <path d="M10 14l-2.5-2.5L6 13l4 4 8-8-1.5-1.5z" fill="black"/>
+      </svg>
+    `,
+    error: `
+      <svg viewBox="0 0 24 24">
+        <circle cx="12" cy="12" r="10" fill="white"/>
+        <path d="M9 9l6 6M15 9l-6 6"
+          stroke="black" stroke-width="2" stroke-linecap="round"/>
+      </svg>
+    `
+  };
+
+  const toast = document.createElement("div");
+  toast.className = `toast ${type}`;
+
+  toast.innerHTML = `
+    ${icons[type]}
+    <span>${message}</span>
+  `;
+
+  document.body.appendChild(toast);
+
+  setTimeout(() => toast.classList.add("show"), 50);
+
+  setTimeout(() => {
+    toast.classList.remove("show");
+    setTimeout(() => toast.remove(), 300);
+  }, 2500);
+}
+</script>
+
 </body>
 </html>
