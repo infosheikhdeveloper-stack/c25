@@ -1,7 +1,7 @@
 {
   "name": "C25 Cafe",
   "short_name": "C25Cafe",
-  "start_url": "https://infosheikhdeveloper-stack.github.io/c25/index.html",
+  "start_url": "/index.html",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#ff6b00",
