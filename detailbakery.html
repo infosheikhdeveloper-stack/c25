@@ -450,25 +450,25 @@ class="price">
 <div class="info-item">
 <i class="fa-solid fa-dumbbell"></i>
 <h4>Protein</h4>
-<p>12g</p>
+<p id="productProtein">0g</p>
 </div>
 
 <div class="info-item">
-<i class="fa-solid fa-candy-cane"></i>
+<i class="fa-solid fa-cube"></i>
 <h4>Sugar</h4>
-<p>20g</p>
+<p id="productSugar">0g</p>
 </div>
 
 <div class="info-item">
 <i class="fa-solid fa-fire"></i>
 <h4>Calories</h4>
-<p>250 kcal</p>
+<p id="productCalories">0 kcal</p>
 </div>
 
 <div class="info-item">
 <i class="fa-solid fa-leaf"></i>
 <h4>Freshness</h4>
-<p>100%</p>
+<p id="productFreshness">0%</p>
 </div>
 
 </div>
@@ -569,6 +569,26 @@ document.getElementById(
 "bottomPrice"
 ).innerText =
 "₹" + product.price;
+
+document.getElementById(
+"productCalories"
+).innerText =
+product.calories || "N/A";
+
+document.getElementById(
+"productProtein"
+).innerText =
+product.protein || "N/A";
+
+document.getElementById(
+"productSugar"
+).innerText =
+product.fat || "N/A";
+
+document.getElementById(
+"productFreshness"
+).innerText =
+product.freshness || "100%";
 
 /* =========================
 ADD TO CART
