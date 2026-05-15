@@ -408,25 +408,25 @@ class="price">
 <div class="info-card">
 <i class="fa-solid fa-fire"></i>
 <h4>Calories</h4>
-<p>420 kcal</p>
+<p id="productCalories">0 kcal</p>
 </div>
 
 <div class="info-card">
 <i class="fa-solid fa-drumstick-bite"></i>
 <h4>Protein</h4>
-<p>18g</p>
+<p id="productProtein">0g</p>
 </div>
 
 <div class="info-card">
 <i class="fa-solid fa-cookie"></i>
 <h4>Fat</h4>
-<p>14g</p>
+<p id="productFat">0g</p>
 </div>
 
 <div class="info-card">
 <i class="fa-solid fa-bowl-food"></i>
 <h4>Freshness</h4>
-<p>100%</p>
+<p id="productFreshness">0%</p>
 </div>
 
 </div>
@@ -519,6 +519,26 @@ document.getElementById(
 "bottomPrice"
 ).innerText =
 "₹" + product.price;
+document.getElementById(
+"productCalories"
+).innerText =
+product.calories || "N/A";
+
+document.getElementById(
+"productProtein"
+).innerText =
+product.protein || "N/A";
+
+document.getElementById(
+"productFat"
+).innerText =
+product.fat || "N/A";
+
+document.getElementById(
+"productFreshness"
+).innerText =
+product.freshness || "100%";
+
 
 /* ADD TO CART */
 
