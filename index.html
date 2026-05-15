@@ -504,12 +504,16 @@ async function loadProducts(){
 <div class="product-card"
 data-name="${item.title}">
 
-  <div onclick='openDetail(
+<div onclick='openDetail(
 "${item.title}",
 "${item.description}",
 "${item.price}",
 "${item.image}",
-"${item.category}"
+"${item.category}",
+"${item.calories}",
+"${item.protein}",
+"${item.fat}",
+"${item.freshness}"
 )'>
 
     <img src="${item.image}">
@@ -742,23 +746,29 @@ title,
 description,
 price,
 image,
-category
+category,
+calories,
+protein,
+fat,
+freshness
 ){
 
-  const product = {
-    title,
-    description,
-    price,
-    image,
-    category
-  };
+const product = {
+  title,
+  description,
+  price,
+  image,
+  category,
+  calories,
+  protein,
+  fat,
+  freshness
+};
 
   localStorage.setItem(
     "selectedProduct",
     JSON.stringify(product)
   );
-
-  // CATEGORY PAGES
 
   if(category.toLowerCase() === "bakery"){
 
@@ -802,7 +812,6 @@ category
   }
 
 }
-
 
 /* =========================
 START
