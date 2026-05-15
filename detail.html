@@ -1,499 +1,454 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <link rel="stylesheet" href="back.css">
-<link rel="stylesheet" href="nav.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
 
-
-<title>My Orders - C25 Cafe</title>
+<title>Order Details - C25 Cafe</title>
 
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 
 <style>
+
+/* =========================
+GOOGLE FONT
+========================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* =========================
+BASE
+========================= */
+
 *{
   margin:0;
   padding:0;
   box-sizing:border-box;
-  font-family:sans-serif;
+  font-family:'Poppins',sans-serif;
 }
 
 body{
-  background:#f5f6fa;
-  color:#111;
-  padding:15px;
+  background:#f4f6fb;
+  padding:20px;
   padding-bottom:120px;
+
+  /* FIXED HEADER SPACE */
+  padding-top:115px;
+
+  overflow-x:hidden;
 }
 
-.header{
+/* =========================
+TOP HEADER
+========================= */
+
+.top-header{
+  width:100%;
+  padding:15px 18px;
+
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+
+  position:fixed;
+  top:0;
+  left:0;
+
+  z-index:1000;
+
+  background:#f4f6fb;
+
+  backdrop-filter:blur(12px);
+
+  box-shadow:0 2px 15px rgba(0,0,0,0.05);
+}
+
+.logo-side{
   display:flex;
   align-items:center;
   gap:12px;
-  background:#111;
-  color:#fff;
-  padding:15px;
-  border-radius:16px;
 }
 
-.header img{
-  width:45px;
-  height:45px;
-  border-radius:50%;
+.logo{
+  width:55px;
+  height:55px;
+  border-radius:18px;
+  object-fit:cover;
+  box-shadow:0 4px 12px rgba(0,0,0,0.08);
 }
 
-.title{
-  margin-top:20px;
+.logo-side h2{
   font-size:20px;
+  color:#111;
   font-weight:700;
 }
 
-.order-card{
-  background:#fff;
-  margin-top:15px;
-  padding:15px;
-  border-radius:16px;
-  box-shadow:0 5px 20px rgba(0,0,0,0.08);
-}
-
-.product{
-  display:flex;
-  gap:10px;
-  margin-top:10px;
-  background:#f8f8f8;
-  padding:10px;
-  border-radius:12px;
-}
-
-.product img{
-  width:60px;
-  height:60px;
-  border-radius:10px;
-}
-
-.status{
-  margin-top:12px;
-  padding:10px;
-  border-radius:12px;
-  font-weight:700;
-  text-align:center;
-}
-
-.waiting{background:#ffb300;}
-.accepted{background:#00c853;color:#fff;}
-.rejected{background:#e53935;color:#fff;}
-
-.invoice{
-  background:#111;
-  color:#fff;
-  padding:12px;
-  margin-top:12px;
-  border-radius:12px;
+.logo-side p{
   font-size:13px;
-  line-height:1.6;
+  color:#777;
+  margin-top:2px;
+
+  display:flex;
+  align-items:center;
+  gap:5px;
 }
 
-.btn{
-  margin-top:12px;
-  width:100%;
-  padding:12px;
+.logo-side i{
+  color:#ff6b00;
+}
+
+.menu-btn{
+  width:46px;
+  height:46px;
+
   border:none;
-  border-radius:12px;
-  background:#111;
-  color:#fff;
-  font-weight:700;
-}
+  border-radius:16px;
 
-.loader{
-  text-align:center;
-  margin-top:40px;
-}
+  background:#fff;
 
-/* =========================
-CUSTOM TOP ALERT (TOAST)
-========================= */
+  box-shadow:0 5px 18px rgba(0,0,0,0.08);
 
-.toast {
-  position: fixed;
-  top: -100px;
-  left: 50%;
-  transform: translateX(-50%);
-  min-width: 260px;
-  max-width: 90%;
-  padding: 14px 16px;
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  z-index: 99999;
-  transition: 0.35s ease;
-  font-weight: 600;
-  color: #fff;
-  backdrop-filter: blur(8px);
-}
+  font-size:18px;
+  color:#111;
 
-/* ✅ SUCCESS = GREEN TRANSPARENT BACKGROUND */
-.toast.success {
-  background: rgba(0, 200, 83, 0.35);
-}
-
-/* ❌ ERROR = RED TRANSPARENT BACKGROUND */
-.toast.error {
-  background: rgba(229, 57, 53, 0.35);
-}
-
-/* SLIDE DOWN */
-.toast.show {
-  top: 20px;
-}
-
-/* ICON SIZE */
-.toast svg {
-  width: 26px;
-  height: 26px;
-  flex-shrink: 0;
-}
-/* =========================
-EMPTY ORDER DESIGN
-========================= */
-
-.empty-orders{
-  width:100%;
-  text-align:center;
-  margin-top:50px;
-  animation:fadeUp .5s ease;
-}
-
-.empty-orders i{
-  display:flex !important;
+  display:flex;
   align-items:center;
   justify-content:center;
-
-  margin:auto;
-
-  width:170px;
-  height:170px;
-
-  font-size:95px !important;
-
-  color:#111 !important;
-
-  background:transparent;
-  border-radius:0;
-  box-shadow:none;
-
-  animation:floatCart 2.5s ease-in-out infinite;
 }
 
-.empty-orders .fa-cart-shopping::before{
-  font-size:95px !important;
+/* =========================
+ITEMS SECTION
+========================= */
+
+.items{
+  display:flex;
+  flex-direction:column;
+  gap:14px;
 }
 
-.empty-orders h2{
-  margin-top:14px;
-  font-size:26px;
+/* =========================
+PRODUCT CARD
+========================= */
+
+.item{
+  background:#fff;
+  padding:14px;
+  border-radius:22px;
+
+  display:flex;
+  gap:14px;
+  align-items:center;
+
+  box-shadow:0 6px 20px rgba(0,0,0,0.05);
+
+  transition:0.2s;
+}
+
+.item:active{
+  transform:scale(0.98);
+}
+
+.item img{
+  width:85px;
+  height:85px;
+
+  border-radius:18px;
+  object-fit:cover;
+
+  flex-shrink:0;
+}
+
+.item h3{
+  font-size:17px;
   color:#111;
+  margin-bottom:4px;
 }
 
-.empty-orders p{
-  margin-top:6px;
-  font-size:14px;
+.item p{
+  font-size:13px;
   color:#777;
+  line-height:1.4;
 }
 
-/* ANIMATION */
+.item span{
+  display:inline-block;
+  margin-top:8px;
 
-@keyframes floatCart{
+  font-weight:700;
+  font-size:17px;
 
-  0%{
-    transform:
-    perspective(500px)
-    rotateX(12deg)
-    translateY(0px);
-  }
-
-  50%{
-    transform:
-    perspective(500px)
-    rotateX(12deg)
-    translateY(-10px);
-  }
-
-  100%{
-    transform:
-    perspective(500px)
-    rotateX(12deg)
-    translateY(0px);
-  }
-
+  color:#ff6b00;
 }
 
-@keyframes fadeUp{
+/* =========================
+USER BOX
+========================= */
 
-  from{
-    opacity:0;
-    transform:translateY(30px);
-  }
+.user-box{
+  margin-top:24px;
 
-  to{
-    opacity:1;
-    transform:translateY(0);
-  }
+  background:#fff;
 
+  padding:18px;
+
+  border-radius:24px;
+
+  box-shadow:0 6px 20px rgba(0,0,0,0.05);
+}
+
+.user-box h3{
+  font-size:20px;
+  color:#111;
+  margin-bottom:14px;
+}
+
+.user-box input,
+.user-box select{
+  width:100%;
+
+  padding:14px;
+
+  margin-top:12px;
+
+  border-radius:16px;
+
+  border:1px solid #e5e5e5;
+
+  outline:none;
+
+  font-size:15px;
+
+  background:#fafafa;
+
+  transition:0.2s;
+}
+
+.user-box input:focus,
+.user-box select:focus{
+  border-color:#ff6b00;
+  background:#fff;
+}
+
+/* =========================
+BUTTONS
+========================= */
+
+.btn{
+  width:100%;
+
+  padding:15px;
+
+  border:none;
+
+  border-radius:18px;
+
+  font-size:16px;
+  font-weight:700;
+
+  margin-top:16px;
+
+  cursor:pointer;
+
+  transition:0.2s;
+}
+
+.btn:active{
+  transform:scale(0.98);
+}
+
+/* SAVE BUTTON */
+
+.save-btn{
+  background:#111;
+  color:#fff;
+
+  box-shadow:0 6px 18px rgba(0,0,0,0.12);
+}
+
+/* PAYMENT BUTTON */
+
+.pay-btn{
+  background:linear-gradient(135deg,#ff6b00,#ff934d);
+  color:#fff;
+
+  box-shadow:0 8px 20px rgba(255,107,0,0.25);
+}
+
+/* =========================
+BOTTOM FIXED FOOTER
+========================= */
+
+.footer{
+  position:fixed;
+
+  bottom:0;
+  left:0;
+
+  width:100%;
+
+  background:#ffffffd9;
+
+  backdrop-filter:blur(10px);
+
+  padding:16px;
+
+  box-shadow:0 -4px 18px rgba(0,0,0,0.08);
+
+  border-top-left-radius:22px;
+  border-top-right-radius:22px;
+
+  z-index:999;
 }
 
 </style>
-</head>
 
+
+</head>
 <body>
 
-<div class="header">
-  <img src="logo.png">
-  <div>
-    <h2>C25 Cafe & Bakery</h2>
-    <small>Your Orders</small>
-  </div>
-</div>
-
-<h2 class="title">Your Order Details</h2>
-
-<div id="loader" class="loader">Loading orders...</div>
-<div id="orders"></div>
-
 <!-- =========================
-BOTTOM NAVIGATION
-LINKABLE NAVBAR
+TOP HEADER
 ========================= -->
 
-<nav class="bottom-nav">
+<header class="top-header">
 
-  <!-- HOME -->
-  <a href="index.html" class="nav-item active">
+  <div class="logo-side">
 
-    <i class="fa-solid fa-house"></i>
+    <img src="logo.png" class="logo">
 
-    <span>Home</span>
+    <div>
 
-  </a>
-
-
-
-  <!-- CART -->
-<a href="cart.html" class="nav-item cart-nav">
-
-  <div class="cart-icon-box">
-
-    <i class="fa-solid fa-cart-shopping"></i>
-
-    <span id="cartCount">0</span>
-
-  </div>
-
-  <span>Cart</span>
-
-</a>
-
-
-
-  <!-- ORDER -->
-  <a href="order.html" class="nav-item">
-
-    <i class="fa-solid fa-bag-shopping"></i>
-
-    <span>Your Order</span>
-
-  </a>
-
-
-
-  <!-- ACCOUNT -->
-  <a href="account.html" class="nav-item">
-
-    <i class="fa-solid fa-user"></i>
-
-    <span>Account</span>
-
-  </a>
-
-</nav>
-
-
-
-<script>
-
-const client = supabase.createClient(
-  "https://sogyxzqvbquwrqlqpdaj.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNvZ3l4enF2YnF1d3JxbHFwZGFqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1OTI0MjcsImV4cCI6MjA5NDE2ODQyN30.kubX_vDW8CiHJR7HLXs7-5RpeNI6DBlJLgt4uEhBEFE"
-);
-
-let user = JSON.parse(localStorage.getItem("c25user")) || {};
-
-async function loadOrders(){
-
-  const loader = document.getElementById("loader");
-
-  if(!user.email){
-    loader.innerText = "Please login first";
-    return;
-  }
-
-  const { data, error } = await client
-    .from("orders")
-    .select("*")
-    .eq("email", user.email)
-    .order("created_at", { ascending:false });
-
-if(error){
-  loader.innerText = "Error loading orders";
-  console.log(error);
-  return;
-}
-
-/* NO ORDERS */
-
-if(!data || data.length === 0){
-
-  loader.innerHTML = `
-
-    <div class="empty-orders">
-
-      <i class="fa-solid fa-cart-shopping"></i>
-
-      <h2>No Orders Yet</h2>
+      <h2>C25 Cafe & Bakery</h2>
 
       <p>
-        You haven't placed any order yet.
+        <i class="fa-solid fa-bag-shopping"></i>
+        Order Details
       </p>
 
     </div>
 
-  `;
+  </div>
 
-  return;
-}
+  <button class="menu-btn">
+    <i class="fa-solid fa-receipt"></i>
+  </button>
 
-/* HIDE LOADER ONLY IF ORDERS EXIST */
-loader.style.display = "none";
+</header>
 
-  data.forEach(order => {
+<!-- ================= ITEMS ================= -->
 
-    // FIX ITEMS SAFE PARSE
-    let items = [];
-    try {
-      items = typeof order.items === "string"
-        ? JSON.parse(order.items)
-        : order.items || [];
-    } catch(e){
-      items = [];
-    }
+<div class="items" id="items"></div>
 
-    let itemsHTML = "";
-    let calcTotal = 0;   // ⭐ IMPORTANT RESET PER ORDER
+<!-- ================= USER BOX ================= -->
 
-    items.forEach(i => {
+<div class="user-box">
 
-      let qty = i.qty || 1;
-      let price = Number(i.price || 0);
-      let totalItemPrice = price * qty;
+  <h3>User Details</h3>
 
-      calcTotal += totalItemPrice;
+  <input id="uName" placeholder="Name">
+  <input id="uPhone" placeholder="Phone">
 
-      itemsHTML += `
-        <div class="product">
-          <img src="${i.image}">
-          <div style="flex:1">
-            <h4>${i.name}</h4>
-            <p>Qty: ${qty}</p>
-            <p style="font-weight:700;">
-              ₹${price} × ${qty} = ₹${totalItemPrice}
-            </p>
-          </div>
-        </div>
-      `;
-    });
+  <select id="uPincode">
+    <option value="193401">193401</option>
+    <option value="193402">193402</option>
+    <option value="193403">193403</option>
+    <option value="193404">193404</option>
+  </select>
 
-    document.getElementById("orders").innerHTML += `
-      <div class="order-card">
+  <input id="uLocation" placeholder="Location">
 
-        <h3>Order ID: ${order.id}</h3>
+  <button class="btn save-btn" onclick="saveUser()">
+    Save Changes
+  </button>
 
-        ${itemsHTML}
+</div>
 
-        <div class="status ${order.status || 'waiting'}">
-          ${(order.status || 'waiting').toUpperCase()}
-        </div>
+<!-- ================= FOOTER ================= -->
 
-        <div class="invoice">
-          <p><b>Name:</b> ${order.name}</p>
-          <p><b>Phone:</b> ${order.phone}</p>
-          <p><b>Location:</b> ${order.location}</p>
-          <p><b>Pincode:</b> ${order.pincode}</p>
-          <hr>
-          <p>Subtotal: ₹${calcTotal}</p>
-          <p>Delivery: ₹${order.delivery || 15}</p>
-          <p><b>Total: ₹${calcTotal + (order.delivery || 15)}</b></p>
-        </div>
+<div class="footer">
 
-        <button class="btn" onclick="downloadInvoice()">
-          Download Invoice
-        </button>
+  <button class="btn pay-btn" onclick="goToPayment()">
+    Continue Payment
+  </button>
+
+</div>
+
+<script>
+
+/* ================= CART LOAD ================= */
+
+let cart = JSON.parse(localStorage.getItem("cartBackup")) || [];
+let user = JSON.parse(localStorage.getItem("c25user")) || {};
+
+/* ================= SHOW ITEMS ================= */
+
+const container = document.getElementById("items");
+
+cart.forEach(item => {
+
+  let qty = item.qty || 1;
+  let price = Number(item.price);
+  let total = price * qty;
+
+  container.innerHTML += `
+    <div class="item">
+
+      <img src="${item.image}">
+
+      <div>
+
+        <h3>${item.name}</h3>
+
+        <p>${item.description}</p>
+
+        <p style="font-size:13px;color:#666;">
+          Qty: ${qty}
+        </p>
+
+        <span>₹${total}</span>
 
       </div>
-    `;
-  });
 
-}
-
-function downloadInvoice(){
-  showToast("Invoice download coming soon 🚀", "success");
-}
-
-loadOrders();
-
-</script>
-<script>
-function showToast(message, type = "success") {
-
-  const icons = {
-    success: `
-      <svg width="26" height="26" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="10" fill="white"/>
-        <path d="M10 14l-2.5-2.5L6 13l4 4 8-8-1.5-1.5z" fill="black"/>
-      </svg>
-    `,
-    error: `
-      <svg width="26" height="26" viewBox="0 0 24 24">
-        <circle cx="12" cy="12" r="10" fill="white"/>
-        <path d="M9 9l6 6M15 9l-6 6"
-          stroke="black" stroke-width="2" stroke-linecap="round"/>
-      </svg>
-    `
-  };
-
-  const toast = document.createElement("div");
-  toast.className = `toast ${type}`;
-
-  toast.innerHTML = `
-    ${icons[type]}
-    <span>${message}</span>
+    </div>
   `;
+});
 
-  document.body.appendChild(toast);
+/* ================= PREFILL USER ================= */
 
-  setTimeout(() => toast.classList.add("show"), 50);
+document.getElementById("uName").value = user.name || "";
+document.getElementById("uPhone").value = user.phone || "";
+document.getElementById("uPincode").value = user.pincode || "193401";
+document.getElementById("uLocation").value = user.location || "";
 
-  setTimeout(() => {
-    toast.classList.remove("show");
-    setTimeout(() => toast.remove(), 300);
-  }, 2500);
+/* ================= SAVE USER ================= */
+
+function saveUser(){
+
+  user.name = document.getElementById("uName").value;
+  user.phone = document.getElementById("uPhone").value;
+  user.pincode = document.getElementById("uPincode").value;
+  user.location = document.getElementById("uLocation").value;
+
+  localStorage.setItem("c25user", JSON.stringify(user));
+
+  alert("Updated Successfully");
 }
+
+/* ================= PAYMENT ================= */
+
+function goToPayment(){
+  window.location.href = "payment.html";
+}
+
 </script>
 <script src="back.js"></script>
 <script>
   createBackButton();
 </script>
-
 </body>
 </html>
