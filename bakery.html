@@ -520,34 +520,43 @@ async function loadProducts(){
 
     container.innerHTML += `
       <div class="product-card"
-      onclick='openDetail(${JSON.stringify(item)})'>
+onclick='openDetail(
+"${item.title}",
+"${item.description}",
+"${item.price}",
+"${item.image}",
+"${item.category}",
+"${item.calories}",
+"${item.protein}",
+"${item.fat}",
+"${item.sugar}",
+"${item.freshness}"
+)'>
 
-        <img src="${item.image}">
+<img src="${item.image}">
 
-        <div class="product-info">
+<div class="product-info">
 
-          <h3>${item.title}</h3>
+<h3>${item.title}</h3>
 
-          <p>${item.description}</p>
+<p>${item.description}</p>
 
-          <div class="price-row">
+<div class="price-row">
 
-            <span>₹${item.price}</span>
+<span>₹${item.price}</span>
 
-            <button onclick='event.stopPropagation(); addToCart(
-              "${item.title}",
-              "${item.description}",
-              "${item.price}",
-              "${item.image}"
-            )'>
-              +
-            </button>
+<button onclick='event.stopPropagation(); addToCart(
+"${item.title}",
+"${item.description}",
+"${item.price}",
+"${item.image}"
+)'>+</button>
 
-          </div>
+</div>
 
-        </div>
+</div>
 
-      </div>
+</div>
     `;
   });
 }
@@ -555,11 +564,41 @@ async function loadProducts(){
 
 
 /* ✅ THIS MUST BE OUTSIDE */
-function openDetail(item){
-  localStorage.setItem("selectedProduct", JSON.stringify(item));
-  window.location.href = "detailbakery.html";
-}
+function openDetail(
+title,
+description,
+price,
+image,
+category,
+calories,
+protein,
+fat,
+sugar,
+freshness
+){
 
+const product = {
+  title,
+  description,
+  price,
+  image,
+  category,
+  calories,
+  protein,
+  fat,
+  sugar,
+  freshness
+};
+
+localStorage.setItem(
+  "selectedProduct",
+  JSON.stringify(product)
+);
+
+window.location.href =
+"detailrestaurant.html";
+
+}
 loadProducts();
 
 /* =========================
