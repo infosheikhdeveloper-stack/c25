@@ -1,0 +1,72 @@
+/* FULL SCREEN APP CLOSED OVERLAY */
+.app-closed{
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100vh;
+  background: rgba(10,10,10,0.95);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999999;
+  color: white;
+
+  /* hidden by default */
+  display: none;
+}
+
+/* SHOW CLASS */
+.app-closed.show{
+  display: flex;
+}
+
+/* CARD */
+.closed-card{
+  text-align: center;
+  padding: 25px;
+  background: linear-gradient(145deg,#1c1c1c,#0f0f0f);
+  border-radius: 20px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  width: 85%;
+  max-width: 320px;
+  animation: pop 0.3s ease;
+}
+
+/* ICON BOX */
+.icon-box{
+  font-size: 55px;
+  color: #ff3b3b;
+  margin-bottom: 15px;
+}
+
+/* TEXT */
+.closed-card h1{
+  font-size: 22px;
+  margin-bottom: 8px;
+}
+
+.closed-card p{
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* LOADER */
+.loader{
+  margin: 20px auto 0;
+  width: 35px;
+  height: 35px;
+  border: 3px solid #444;
+  border-top: 3px solid #ff3b3b;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin{
+  0%{ transform: rotate(0deg); }
+  100%{ transform: rotate(360deg); }
+}
+
+@keyframes pop{
+  from{ transform: scale(0.8); opacity: 0; }
+  to{ transform: scale(1); opacity: 1; }
+}
