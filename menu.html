@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>C25 Cafe Menu</title>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="back.css">
+<style>
+
+/* ======================
+GLOBAL
+====================== */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins',sans-serif;
+}
+
+body{
+  background: linear-gradient(160deg,#0d0d0d,#1a1a1a);
+  color:#fff;
+}
+
+/* ======================
+HEADER (APP STYLE)
+====================== */
+.header{
+  position:sticky;
+  top:0;
+  z-index:10;
+  background:rgba(20,20,20,0.85);
+  backdrop-filter: blur(10px);
+  padding:15px;
+  text-align:center;
+  border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.header img{
+  width:55px;
+  border-radius:10px;
+}
+
+.header h1{
+  font-size:20px;
+  margin-top:5px;
+}
+
+.header p{
+  font-size:12px;
+  color:#ffb703;
+  letter-spacing:2px;
+}
+
+/* ======================
+GRID (MOBILE + DESKTOP)
+====================== */
+.menu-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:15px;
+  padding:15px;
+}
+
+@media(min-width:768px){
+  .menu-grid{
+    grid-template-columns:repeat(2,1fr);
+  }
+}
+
+@media(min-width:1100px){
+  .menu-grid{
+    grid-template-columns:repeat(3,1fr);
+  }
+}
+
+/* ======================
+CARD DESIGN
+====================== */
+.card{
+  background:rgba(255,255,255,0.04);
+  border:1px solid rgba(255,255,255,0.08);
+  border-radius:15px;
+  padding:15px;
+  box-shadow:0 10px 25px rgba(0,0,0,0.4);
+  transition:0.3s;
+}
+
+.card:hover{
+  transform:translateY(-5px);
+  border-color:#ffb703;
+}
+
+.card-title{
+  font-size:16px;
+  font-weight:700;
+  color:#ffb703;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin-bottom:10px;
+}
+
+/* ======================
+ITEM ROW
+====================== */
+.item{
+  display:flex;
+  justify-content:space-between;
+  padding:8px 0;
+  border-bottom:1px dashed rgba(255,255,255,0.08);
+}
+
+.item:last-child{
+  border-bottom:none;
+}
+
+.item span{
+  font-size:13px;
+  color:#ddd;
+}
+
+.price{
+  color:#fff;
+  font-weight:600;
+}
+
+/* ======================
+BADGE
+====================== */
+.badge{
+  background:#ffb703;
+  color:#000;
+  padding:2px 8px;
+  font-size:11px;
+  border-radius:5px;
+  margin-left:auto;
+}
+
+/* ======================
+FOOTER
+====================== */
+footer{
+  text-align:center;
+  padding:20px;
+  font-size:12px;
+  color:#777;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <img src="logo.png">
+  <h1>C25 Cafe & Bakery</h1>
+  <p>FULL MENU</p>
+</div>
+
+<!-- GRID -->
+<div class="menu-grid">
+
+  <!-- CARD 1 -->
+  <div class="card">
+    <div class="card-title"><i class="fa-solid fa-mug-hot"></i> Hot Beverages</div>
+
+    <div class="item"><span>Cappuccino</span><span class="price">105</span></div>
+    <div class="item"><span>Cafe Mocha</span><span class="price">115</span></div>
+    <div class="item"><span>Hot Chocolate</span><span class="price">115</span></div>
+    <div class="item"><span>Masala Tea</span><span class="price">40</span></div>
+  </div>
+
+  <!-- CARD 2 -->
+  <div class="card">
+    <div class="card-title"><i class="fa-solid fa-glass-water"></i> Cold Drinks</div>
+
+    <div class="item"><span>Cold Coffee</span><span class="price">115</span></div>
+    <div class="item"><span>Cola</span><span class="price">70</span></div>
+    <div class="item"><span>Virgin Mojito</span><span class="price">155</span></div>
+    <div class="item"><span>Fresh Lime Soda</span><span class="price">85</span></div>
+  </div>
+
+  <!-- CARD 3 -->
+  <div class="card">
+    <div class="card-title"><i class="fa-solid fa-martini-glass"></i> Shakes <span class="badge">@125</span></div>
+
+    <div class="item"><span>Chocolate Shake</span><span class="price">125</span></div>
+    <div class="item"><span>Oreo Shake</span><span class="price">125</span></div>
+    <div class="item"><span>Banana Shake</span><span class="price">125</span></div>
+    <div class="item"><span>Mango Shake</span><span class="price">125</span></div>
+  </div>
+
+  <!-- CARD 4 -->
+  <div class="card">
+    <div class="card-title"><i class="fa-solid fa-burger"></i> Burgers</div>
+
+    <div class="item"><span>Veg Burger</span><span class="price">120</span></div>
+    <div class="item"><span>Paneer Burger</span><span class="price">160</span></div>
+    <div class="item"><span>Spicy Burger</span><span class="price">180</span></div>
+  </div>
+
+  <!-- CARD 5 -->
+  <div class="card">
+    <div class="card-title"><i class="fa-solid fa-pizza-slice"></i> Pizzas</div>
+
+    <div class="item"><span>Margherita</span><span class="price">290</span></div>
+    <div class="item"><span>Veg Pizza</span><span class="price">370</span></div>
+    <div class="item"><span>Cheese Overload</span><span class="price">450</span></div>
+  </div>
+
+  <!-- CARD 6 -->
+  <div class="card">
+    <div class="card-title"><i class="fa-solid fa-utensils"></i> Main Course</div>
+
+    <div class="item"><span>Paneer Butter Masala</span><span class="price">415</span></div>
+    <div class="item"><span>Mix Veg</span><span class="price">315</span></div>
+    <div class="item"><span>Paneer Kashmiri</span><span class="price">315</span></div>
+  </div>
+
+</div>
+
+<footer>
+  © 2026 C25 Cafe & Bakery • All Rights Reserved
+</footer>
+
+</body><script src="back.js"></script>
+<script>
+  createBackButton();
+</script>
+</html>
