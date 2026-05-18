@@ -762,8 +762,7 @@ function updateCartCount(){
 }
 
 /* =========================
-OPEN DETAIL PAGE
-MULTIPLE CATEGORY PAGES
+OPEN PRODUCT DETAIL PAGE
 ========================= */
 
 function openDetail(
@@ -790,51 +789,15 @@ const product = {
   freshness
 };
 
-  localStorage.setItem(
-    "selectedProduct",
-    JSON.stringify(product)
-  );
+localStorage.setItem(
+  "selectedProduct",
+  JSON.stringify(product)
+);
 
-  if(category.toLowerCase() === "bakery"){
+/* SINGLE DETAIL PAGE */
 
-    window.location.href =
-    "detailbakery.html";
-
-  }
-
-  else if(
-    category.toLowerCase() === "restaurant"
-  ){
-
-    window.location.href =
-    "detailrestaurant.html";
-
-  }
-
-  else if(
-    category.toLowerCase() === "drink"
-  ){
-
-    window.location.href =
-    "detaildrink.html";
-
-  }
-
-  else if(
-    category.toLowerCase() === "icecream"
-  ){
-
-    window.location.href =
-    "detailicecream.html";
-
-  }
-
-  else{
-
-    window.location.href =
-    "detailrestaurant.html";
-
-  }
+window.location.href =
+"productdetail.html";
 
 }
 
