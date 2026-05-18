@@ -674,3 +674,12 @@ ANIMATIONS
 .cat-btn:active{
   transform:scale(0.92);
 }
+
+/*==========Product description short========*/
+.product-desc{
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap;
+  width:100%;
+  display:block;
+}
