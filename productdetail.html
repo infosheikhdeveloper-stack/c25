@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+<title>Product Detail - C25 Cafe</title>
+
+<link rel="stylesheet" href="back.css">
+
+<link rel="stylesheet"
+href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/js/all.min.js"></script>
+
+<style>
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+body{
+background:#f8f8f8;
+padding-bottom:120px;
+}
+
+/* HEADER */
+
+.top-header{
+position:sticky;
+top:0;
+z-index:100;
+background:#fff;
+padding:14px 16px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+box-shadow:0 3px 15px rgba(0,0,0,.08);
+}
+
+.logo-side{
+display:flex;
+align-items:center;
+gap:12px;
+}
+
+.logo{
+width:54px;
+height:54px;
+border-radius:18px;
+object-fit:cover;
+border:2px solid #ff6b00;
+}
+
+.logo-side h2{
+font-size:19px;
+font-weight:700;
+color:#111;
+}
+
+.logo-side p{
+font-size:13px;
+color:#ff6b00;
+margin-top:3px;
+}
+
+.menu-btn{
+width:44px;
+height:44px;
+border:none;
+border-radius:14px;
+background:#fff2e8;
+color:#ff6b00;
+font-size:18px;
+}
+
+/* DETAIL */
+
+.detail-section{
+padding:16px;
+}
+
+.image-box{
+position:relative;
+}
+
+.product-image{
+width:100%;
+height:300px;
+object-fit:cover;
+border-radius:30px;
+box-shadow:0 10px 25px rgba(0,0,0,.12);
+}
+
+.image-overlay{
+position:absolute;
+bottom:18px;
+left:18px;
+background:rgba(0,0,0,.45);
+backdrop-filter:blur(8px);
+padding:10px 16px;
+border-radius:18px;
+color:#fff;
+font-size:13px;
+font-weight:600;
+}
+
+.food-tag{
+display:inline-flex;
+align-items:center;
+gap:8px;
+background:linear-gradient(135deg,#ff6b00,#ff934d);
+color:#fff;
+padding:10px 18px;
+border-radius:50px;
+font-size:14px;
+font-weight:600;
+margin-top:22px;
+box-shadow:0 8px 18px rgba(255,107,0,.25);
+}
+
+.product-title{
+font-size:30px;
+font-weight:700;
+margin-top:16px;
+color:#111;
+line-height:1.2;
+}
+
+.product-desc{
+font-size:15px;
+color:#666;
+line-height:1.8;
+margin-top:12px;
+}
+
+.price-rating{
+margin-top:24px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:14px;
+}
+
+.price-box{
+background:#fff;
+padding:14px 18px;
+border-radius:20px;
+box-shadow:0 5px 14px rgba(0,0,0,.06);
+flex:1;
+}
+
+.price-box span{
+font-size:13px;
+color:#888;
+display:block;
+margin-bottom:5px;
+}
+
+.price{
+font-size:34px;
+font-weight:700;
+color:#ff6b00;
+}
+
+.rating{
+background:#fff;
+padding:14px 16px;
+border-radius:18px;
+font-size:15px;
+font-weight:700;
+box-shadow:0 5px 14px rgba(0,0,0,.08);
+white-space:nowrap;
+}
+
+.rating i{
+color:#ffb300;
+margin-right:5px;
+}
+
+/* DELIVERY */
+
+.delivery-box{
+margin-top:24px;
+background:#fff;
+padding:18px;
+border-radius:24px;
+box-shadow:0 3px 12px rgba(0,0,0,.06);
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:14px;
+}
+
+.delivery-left{
+display:flex;
+align-items:center;
+gap:14px;
+}
+
+.delivery-icon{
+width:56px;
+height:56px;
+border-radius:18px;
+background:#fff3eb;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:24px;
+color:#ff6b00;
+}
+
+.delivery-left h4{
+font-size:17px;
+margin-bottom:4px;
+}
+
+.delivery-left p{
+font-size:13px;
+color:#777;
+}
+
+.delivery-time{
+font-size:14px;
+font-weight:700;
+color:#111;
+}
+
+/* TERMS */
+
+.terms-box{
+background:#fff;
+padding:20px;
+border-radius:26px;
+margin-top:26px;
+box-shadow:0 3px 12px rgba(0,0,0,.06);
+}
+
+.terms-box h3{
+font-size:22px;
+margin-bottom:14px;
+color:#111;
+}
+
+.terms-box p{
+font-size:14px;
+line-height:1.9;
+color:#666;
+}
+
+/* MORE PRODUCTS */
+
+.more-title{
+margin-top:30px;
+font-size:24px;
+font-weight:700;
+color:#111;
+}
+
+.more-products{
+margin-top:18px;
+display:flex;
+overflow-x:auto;
+gap:16px;
+padding-bottom:10px;
+}
+
+.more-products::-webkit-scrollbar{
+display:none;
+}
+
+.more-card{
+min-width:180px;
+background:#fff;
+padding:12px;
+border-radius:24px;
+box-shadow:0 4px 14px rgba(0,0,0,.08);
+}
+
+.more-card img{
+width:100%;
+height:130px;
+object-fit:cover;
+border-radius:18px;
+}
+
+.more-card h4{
+margin-top:12px;
+font-size:16px;
+color:#111;
+}
+
+.more-card p{
+margin-top:6px;
+font-size:18px;
+font-weight:700;
+color:#ff6b00;
+}
+
+/* BOTTOM BAR */
+
+.bottom-bar{
+position:fixed;
+bottom:0;
+left:0;
+width:100%;
+background:#fff;
+padding:16px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+gap:14px;
+box-shadow:0 -5px 20px rgba(0,0,0,.08);
+}
+
+.total-price h5{
+font-size:13px;
+color:#888;
+margin-bottom:4px;
+}
+
+.total-price h2{
+font-size:30px;
+color:#111;
+}
+
+.cart-btn{
+flex:1;
+background:linear-gradient(135deg,#ff6b00,#ff934d);
+color:#fff;
+border:none;
+padding:18px;
+border-radius:22px;
+font-size:17px;
+font-weight:700;
+display:flex;
+justify-content:center;
+align-items:center;
+gap:10px;
+box-shadow:0 10px 20px rgba(255,107,0,.28);
+}
+
+/* LOCATION */
+
+#locationDisplay{
+display:inline-block;
+animation:fadeLoc 3s infinite;
+}
+
+@keyframes fadeLoc{
+
+0%{
+opacity:0;
+transform:translateY(-5px);
+}
+
+20%{
+opacity:1;
+transform:translateY(0);
+}
+
+50%{
+opacity:1;
+}
+
+70%{
+opacity:0;
+transform:translateY(5px);
+}
+
+100%{
+opacity:0;
+}
+
+}
+
+/* TOAST */
+
+.toast{
+position:fixed;
+top:-100px;
+left:50%;
+transform:translateX(-50%);
+min-width:260px;
+max-width:90%;
+padding:14px 16px;
+border-radius:16px;
+display:flex;
+align-items:center;
+gap:10px;
+z-index:99999;
+transition:.35s ease;
+font-weight:600;
+color:#fff;
+backdrop-filter:blur(10px);
+}
+
+.toast.success{
+background:rgba(0,200,83,.35);
+}
+
+.toast.error{
+background:rgba(229,57,53,.35);
+}
+
+.toast.show{
+top:20px;
+}
+
+.toast svg{
+width:26px;
+height:26px;
+flex-shrink:0;
+}
+
+</style>
+
+</head>
+<body>
+
+<!-- HEADER -->
+
+<header class="top-header">
+
+<div class="logo-side">
+
+<img src="logo.png"
+class="logo">
+
+<div>
+
+<h2>C25 Cafe</h2>
+
+<p>
+<i class="fa-solid fa-location-dot"></i>
+
+<span id="locationDisplay">
+Loading...
+</span>
+
+</p>
+
+</div>
+
+</div>
+
+<button class="menu-btn">
+<i class="fa-solid fa-bars"></i>
+</button>
+
+</header>
+
+<!-- DETAIL -->
+
+<section class="detail-section">
+
+<div class="image-box">
+
+<img id="productImage"
+class="product-image">
+
+<div class="image-overlay">
+Fresh & Delicious
+</div>
+
+</div>
+
+<div class="food-tag">
+
+<i class="fa-solid fa-fire-flame-curved"></i>
+
+Premium Product
+
+</div>
+
+<h1 id="productTitle"
+class="product-title"></h1>
+
+<p id="productDesc"
+class="product-desc"></p>
+
+<div class="price-rating">
+
+<div class="price-box">
+
+<span>Total Price</span>
+
+<div id="productPrice"
+class="price">
+₹0
+</div>
+
+</div>
+
+<div class="rating">
+
+<i class="fa-solid fa-star"></i>
+
+4.9
+
+</div>
+
+</div>
+
+<!-- DELIVERY -->
+
+<div class="delivery-box">
+
+<div class="delivery-left">
+
+<div class="delivery-icon">
+<i class="fa-solid fa-truck-fast"></i>
+</div>
+
+<div>
+
+<h4>Fast Delivery</h4>
+
+<p>Fresh Product Delivery</p>
+
+</div>
+
+</div>
+
+<div class="delivery-time">
+25-30 Min
+</div>
+
+</div>
+
+<!-- TERMS -->
+
+<div class="terms-box">
+
+<h3>Terms & Conditions</h3>
+
+<p>
+
+All products are freshly prepared using premium quality ingredients and hygienic methods. Product appearance may slightly vary from images shown. Orders once prepared cannot be cancelled or returned. Please consume fresh for best taste and quality experience.
+
+</p>
+
+</div>
+
+<!-- MORE -->
+
+<h2 class="more-title">
+More Products
+</h2>
+
+<div class="more-products"
+id="moreProducts">
+
+</div>
+
+</section>
+
+<!-- BOTTOM -->
+
+<div class="bottom-bar">
+
+<div class="total-price">
+
+<h5>Total Price</h5>
+
+<h2 id="bottomPrice">
+₹0
+</h2>
+
+</div>
+
+<button class="cart-btn"
+onclick="addToCart()">
+
+<i class="fa-solid fa-cart-shopping"></i>
+
+Add To Cart
+
+</button>
+
+</div>
+
+<script>
+
+/* PRODUCT */
+
+const product =
+JSON.parse(
+localStorage.getItem("selectedProduct")
+);
+
+/* SHOW PRODUCT */
+
+document.getElementById(
+"productImage"
+).src =
+product.image;
+
+document.getElementById(
+"productTitle"
+).innerText =
+product.title;
+
+document.getElementById(
+"productDesc"
+).innerText =
+product.description;
+
+document.getElementById(
+"productPrice"
+).innerText =
+"₹" + product.price;
+
+document.getElementById(
+"bottomPrice"
+).innerText =
+"₹" + product.price;
+
+/* ADD TO CART */
+
+function addToCart(){
+
+let cart =
+JSON.parse(
+localStorage.getItem("c25cart")
+) || [];
+
+cart.push({
+
+name: product.title,
+description: product.description,
+price: product.price,
+image: product.image
+
+});
+
+localStorage.setItem(
+"c25cart",
+JSON.stringify(cart)
+);
+
+/* VIBRATION */
+
+if(navigator.vibrate){
+navigator.vibrate(150);
+}
+
+showToast(
+"Added To Cart Successfully",
+"success"
+);
+
+}
+
+/* MORE PRODUCTS */
+
+const moreProducts =
+document.getElementById(
+"moreProducts"
+);
+
+for(let i=0; i<5; i++){
+
+moreProducts.innerHTML += `
+
+<div class="more-card">
+
+<img src="${product.image}">
+
+<h4>${product.title}</h4>
+
+<p>₹${product.price}</p>
+
+</div>
+
+`;
+
+}
+
+/* LOCATION */
+
+function loadUserLocation(){
+
+const user =
+JSON.parse(
+localStorage.getItem("c25user")
+);
+
+const display =
+document.getElementById(
+"locationDisplay"
+);
+
+if(!user){
+
+display.innerText =
+"Please Login";
+
+return;
+
+}
+
+const pincode =
+user.pincode || "N/A";
+
+const location =
+user.location || "No Location";
+
+let showPincode = true;
+
+setInterval(()=>{
+
+if(showPincode){
+
+display.innerText =
+"Pincode: " + pincode;
+
+}
+
+else{
+
+display.innerText =
+location;
+
+}
+
+showPincode =
+!showPincode;
+
+},3000);
+
+}
+
+loadUserLocation();
+
+</script>
+
+<!-- TOAST -->
+
+<script>
+
+function showToast(
+message,
+type = "success"
+){
+
+const icons = {
+
+success: `
+<svg viewBox="0 0 24 24">
+<circle cx="12" cy="12" r="10" fill="white"/>
+<path d="M10 14l-2.5-2.5L6 13l4 4 8-8-1.5-1.5z" fill="black"/>
+</svg>
+`,
+
+error: `
+<svg viewBox="0 0 24 24">
+<circle cx="12" cy="12" r="10" fill="white"/>
+<path d="M9 9l6 6M15 9l-6 6"
+stroke="black"
+stroke-width="2"
+stroke-linecap="round"/>
+</svg>
+`
+
+};
+
+const toast =
+document.createElement("div");
+
+toast.className =
+`toast ${type}`;
+
+toast.innerHTML = `
+${icons[type]}
+<span>${message}</span>
+`;
+
+document.body.appendChild(toast);
+
+setTimeout(()=>{
+toast.classList.add("show");
+},50);
+
+setTimeout(()=>{
+
+toast.classList.remove("show");
+
+setTimeout(()=>{
+toast.remove();
+},300);
+
+},2500);
+
+}
+
+</script>
+
+<script src="back.js"></script>
+
+<script>
+createBackButton();
+</script>
+
+</body>
+</html>
